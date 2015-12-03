@@ -1,0 +1,25 @@
+Get specifc Datacenter from Akamai server.
+Following is response from akamai server.
+    {
+        "city": "Downpatrick",
+        "cloneOf": 0,
+        "continent": "EU",
+        "country": "GB",
+        "datacenterId": 3133,
+        "defaultLoadObject": {
+            "loadObject": null,
+            "loadObjectPort": 0,
+            "loadServers": null
+        },
+        "latitude": 54.367,
+        "links": [
+            {
+                "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                "rel": "self"
+            }
+        ],
+        "longitude": -5.582,
+        "nickname": "Winterfell",
+        "stateOrProvince": null,
+        "virtual": true
+    }

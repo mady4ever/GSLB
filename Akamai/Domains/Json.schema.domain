@@ -1,0 +1,807 @@
+{
+    "$schema" :  "http://json-schema.org/draft-03/schema#",
+    "type" : "object",
+    "additionalProperties": false,
+    "properties" : {
+        "asMaps" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" :     {
+                    "name" : {
+                        "type" : "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "assignments" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "nickname" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "minLength": 1,
+                                    "maxLength": 256
+                                },
+                                "asNumbers" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "integer",
+                                        "minimum": 1,
+                                        "maximum": 4294967295,
+                                        "required": true
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "defaultDatacenter" : {
+                        "type" : "object",
+                        "additionalProperties": false,
+                        "required": true,
+                        "properties" : {
+                            "datacenterId" : {
+                                "type" : "integer",
+                                "required": true
+                            },
+                            "nickname" : {
+                                "type" : "string",
+                                "minLength": 1,
+                                "maxLength": 128
+                            }
+                        }
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "resources" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" : {
+                    "leastSquaresDecay" : {
+                        "type" : ["number", "null"],
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "hostHeader" : {
+                        "type" : ["string", "null"],
+                        "maxLength" : 255
+                    },
+                    "description" : {
+                        "type" : ["string", "null"],
+                        "maxLength" : 256
+                    },
+                    "leaderString" : {
+                        "type" : ["string", "null"],
+                        "maxLength" : 256
+                    },
+                    "constrainedProperty" : {
+                        "type" : ["string", "null"],
+                        "maxLength": 256
+                    },
+                    "resourceInstances" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "useDefaultLoadObject" : {
+                                    "type" : "boolean"
+                                },
+                                "loadServers" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "string"
+                                    }
+                                },
+                                "loadObject" : {
+                                    "type" : "string",
+                                    "maxLength" : 256,
+                                    "pattern" : "^(?!:).*$"
+                                },
+                                "loadObjectPort" : {
+                                    "type" : "integer",
+                                    "minimum": 0,
+                                    "maximum": 65535
+                                }
+                            }
+                        }
+                    },
+                    "aggregationType" : {
+                        "type" : "string",
+                        "maxLength": 15,
+                        "required" : true,
+                        "enum" :  ["sum", "median", "latest"]
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "loadImbalancePercentage" : {
+                        "type" : ["number", "null"],
+                        "minimum": 0,
+                        "maximum": 1000000
+                    },
+                    "type" : {
+                        "type" : "string",
+                        "required" : true,
+                        "enum" :  ["XML load object via HTTP", "XML load object via HTTPS", "Non-XML load object via HTTP", "Non-XML load object via HTTPS", "Download score"]
+                    },
+                    "upperBound" : {
+                        "type" : ["integer", "null"]
+                    },
+                    "name" : {
+                        "type" : "string",
+                        "required": true,
+                        "maxLength": 150,
+                        "pattern" : "^((?!\\s).)*$"
+                    },
+                    "maxUMultiplicativeIncrement" : {
+                        "type" : ["number", "null"],
+                        "minimum" : 1.0
+                    },
+                    "decayRate" : {
+                        "type" : ["number", "null"],
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            }
+        },
+        "cnameCoalescingEnabled" : {
+          "type": "boolean"
+        },
+        "emailNotificationList" : {
+            "type" : "array",
+            "items" : {
+                "type" : "string",
+                "format": "email"
+            }
+        },
+        "type" : {
+            "type" : "string",
+            "required": true,
+            "enum": ["failover-only", "static", "weighted", "basic", "full"]
+        },
+        "defaultTimeoutPenalty" : {
+            "type" : "integer"
+        },
+        "datacenters" : {
+            "type" : "array",
+            "required": true,
+            "items" : {
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": ["string", "null"]
+                    },
+                    "cloneOf": {
+                        "type": ["integer", "null"]
+                    },
+                    "cloudServerTargeting": {
+                        "type": "boolean"
+                    },
+                    "continent": {
+                        "type" : [
+                            {
+                                "type": "string",
+                                "maxLength": 2,
+                                "enum": ["AF", "AS", "EU", "NA", "OC", "OT", "SA"]
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "country": {
+                        "type": ["string", "null"],
+                        "maxLength": 2
+                    },
+                    "defaultLoadObject": {
+                        "type": [
+                            {
+                                "type": "object",
+                                "properties": {
+                                    "loadObject": {
+                                        "type": "string",
+                                        "maxLength": 256,
+                                        "pattern": "^(?!:).*$"
+                                    },
+                                    "loadObjectPort": {
+                                        "type": "integer",
+                                        "minimum": 0,
+                                        "maximum": 65535
+                                    },
+                                    "loadServers": {
+                                        "items": {
+                                            "type": "string",
+                                            "maxLength": 256
+                                        },
+                                        "type": "array"
+                                    }
+                                }
+                            }, {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "latitude": {
+                        "type": "number"
+                    },
+                    "links": {
+                        "items": {
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "rel": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "type": "array"
+                    },
+                    "longitude": {
+                        "type": "number"
+                    },
+                    "nickname": {
+                        "type": "string"
+                    },
+                    "datacenterId": {
+                        "required": true,
+                        "type": "integer"
+                    },
+                    "stateOrProvince": {
+                        "type": ["string", "null"]
+                    },
+                    "virtual": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "name" : {
+            "type" : "string",
+            "required": true,
+            "minLength": 1,
+            "maxLength": 100
+        },
+        "loadImbalancePercentage" : {
+            "type" : "number",
+            "minimum": 0,
+            "maximum": 1000000
+        },
+        "lastModified" : {
+            "type" : "string",
+            "format" : "date-time"
+        },
+        "status" : {
+            "type" : "object",
+            "properties" : {
+                "changeId" : {
+                    "type" : "string",
+                    "maxLength" : 36
+                },
+                "links": {
+                    "items": {
+                        "properties": {
+                            "href": {
+                                "type": "string"
+                            },
+                            "rel": {
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "message" : {
+                    "type" : "string",
+                    "maxLength" : 4000
+                },
+                "propagationStatus" : {
+                    "type" : "string",
+                    "maxLength" : 20,
+                    "enum": ["DENIED", "PENDING", "COMPLETE"]
+                },
+                "propagationStatusDate" : {
+                    "type" : "string",
+                    "format" : "date-time"
+                },
+                "passingValidation" : {
+                    "type" : "boolean"
+                }
+            }
+        },
+        "acgid" : {
+            "type" : "string"
+        },
+        "defaultSslClientPrivateKey" : {
+            "type" : ["string", "null"]
+        },
+        "defaultErrorPenalty" : {
+            "type" : "integer"
+        },
+        "links" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "properties" : {
+                    "rel" : {
+                        "type" : "string"
+                    },
+                    "href" : {
+                        "type" : "string"
+                    }
+                }
+            }
+        },
+        "properties" : {
+            "type" : "array",
+            "required": true,
+            "items" : {
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" : {
+                    "ipv6" : {
+                        "type" : "boolean"
+                    },
+                    "scoreAggregationType" : {
+                        "type" : "string",
+                        "required" : true,
+                        "enum":  ["mean", "median", "best", "worst"]
+                    },
+                    "stickinessBonusPercentage" : {
+                        "type" : "integer",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "stickinessBonusConstant" : {
+                        "type" : "integer",
+                        "minimum": 0,
+                        "maximum": 30000
+                    },
+                    "trafficTargets" : {
+                        "type" : "array",
+                        "required": true,
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer"
+                                },
+                                "enabled" : {
+                                    "type" : "boolean"
+                                },
+                                "weight" : {
+                                    "minimum": 0,
+                                    "type" : "number"
+                                },
+                                "servers" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "string"
+                                    }
+                                },
+                                "name" : {
+                                    "type" : ["string", "null"]
+                                },
+                                "handoutCName" : {
+                                    "type" : ["string", "null"]
+                                }
+                            }
+                        }
+                    },
+                    "type" : {
+                        "type" : "string",
+                        "required" : true,
+                        "enum" : ["failover", "geographic", "asmapping", "cidrmapping", "weighted-round-robin", "weighted-hashed", "weighted-round-robin-load-feedback", "qtr", "performance"]
+                    },
+                    "healthThreshold" : {
+                        "type" : ["number", "null"]
+                    },
+                    "useComputedTargets" : {
+                        "type" : "boolean"
+                    },
+                    "backupIp" : {
+                        "type" : ["string", "null"]
+                    },
+                    "balanceByDownloadScore" : {
+                        "type" : "boolean"
+                    },
+                    "mxRecords" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "exchange" : {
+                                    "type" : "string"
+                                },
+                                "preference" : {
+                                    "type" : "number"
+                                }
+                            }
+                        }
+                    },
+                    "staticTTL" : {
+                        "type" : "integer",
+                        "minimum" : 30,
+                        "maximum" : 3600
+                    },
+                    "lastModified" : {
+                        "type" : [
+                            {
+                                "type" : "string",
+                                "format" : "date-time"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ]
+                    },
+                    "unreachableThreshold" : {
+                        "type" : ["number", "null"],
+                        "minimum" : 0,
+                        "maximum" : 1
+                    },
+                    "name" : {
+                        "type" : "string",
+                        "required" : true,
+                        "maxLength" : 256,
+                        "pattern": "^[\\w-]+(\\.[\\w-]+)*$"
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "healthMultiplier" : {
+                        "type" : ["number", "null"]
+                    },
+                    "dynamicTTL" : {
+                        "type" : "integer",
+                        "minimum": 30,
+                        "maximum" : 3600
+                    },
+                    "maxUnreachablePenalty" : {
+                        "type" : ["number", "null"]
+                    },
+                    "mapName" : {
+                        "type" : ["string", "null"]
+                    },
+                    "handoutMode" : {
+                        "type" : "string",
+                        "required" : true,
+                        "enum":  ["normal","persistent","one-ip","one-ip-hashed", "all-live-ips"]
+                    },
+                    "failoverDelay" : {
+                        "type" : "integer",
+                        "minimum": 0
+                    },
+                    "backupCName" : {
+                        "type" : ["string", "null"]
+                    },
+                    "livenessTests" : {
+                        "type" : "array",
+                        "required" : true,
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "name" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "minLength" : 1,
+                                    "maxLength" : 128
+                                },
+                                "testInterval" : {
+                                    "type" : "integer",
+                                    "required" : true,
+                                    "minimum" : 10
+                                },
+                                "testObject" : {
+                                    "type" : "string",
+                                    "maxLength": 256
+                                },
+                                "links" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "rel" : {
+                                                "type" : "string"
+                                            },
+                                            "href" : {
+                                                "type" : "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "requestString" : {
+                                    "type" : ["string", "null"],
+                                    "maxLength": 512
+                                },
+                                "httpError4xx" : {
+                                    "type" : "boolean"
+                                },
+                                "responseString" : {
+                                    "type" : ["string", "null"]
+                                },
+                                "testObjectProtocol" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "enum": ["HTTP", "HTTPS", "FTP", "POP", "POPS", "SMTP", "SMTPS", "TCP", "TCPS"]
+                                },
+                                "testObjectPassword" : {
+                                    "type" : ["string", "null"],
+                                    "maxLength": 128
+                                },
+                                "sslClientPrivateKey" : {
+                                    "type" : ["string", "null"]
+                                },
+                                "testObjectPort" : {
+                                    "type" : "integer",
+                                    "minimum": 1,
+                                    "maximum": 65535
+                                },
+                                "httpError3xx" : {
+                                    "type" : "boolean"
+                                },
+                                "httpError5xx" : {
+                                    "type" : "boolean"
+                                },
+                                "disableNonstandardPortWarning" : {
+                                    "type" : "boolean"
+                                },
+                                "hostHeader" : {
+                                    "type" : ["string", "null"],
+                                    "maxLength": 256
+                                },
+                                "sslClientCertificate" : {
+                                    "type" : ["string", "null"]
+                                },
+                                "testObjectUsername" : {
+                                    "type" : ["string", "null"],
+                                    "maxLength": 512
+                                },
+                                "testTimeout" : {
+                                    "type" : "number",
+                                    "required" : true,
+                                    "minimum" : 0.001
+                                }
+                            }
+                        }
+                    },
+                    "failbackDelay" : {
+                        "type" : "integer",
+                        "minimum": 0
+                    },
+                    "loadImbalancePercentage" : {
+                        "type" : ["number", "null"],
+                        "minimum": 0,
+                        "maximum": 1000000
+                    },
+                    "healthMax" : {
+                        "type" : ["number", "null"]
+                    },
+                    "comments" : {
+                        "type" : ["string", "null"],
+                        "maxLength" : 1000
+                    },
+                    "cname" : {
+                        "type" : ["string", "null"]
+                    }
+                }
+            }
+        },
+        "loadFeedback" : {
+            "type" : "boolean"
+        },
+        "geographicMaps" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" : {
+                    "name" : {
+                        "type" : "string",
+                        "required": true,
+                        "minLength": 1,
+                        "maxLength": 128
+                    },
+                    "defaultDatacenter" : {
+                        "type" : "object",
+                        "additionalProperties": false,
+                        "required": true,
+                        "properties" : {
+                            "datacenterId" : {
+                                "type" : "integer",
+                                "required": true
+                            },
+                            "nickname" : {
+                                "type" : "string",
+                                "minLength": 1,
+                                "maxLength": 128
+
+                            }
+                        }
+                    },
+                    "assignments" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "nickname" : {
+                                    "type" : "string",
+                                    "required": true,
+                                    "minLength": 1,
+                                    "maxLength": 128
+
+                                },
+                                "countries" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "string",
+                                        "minLength": 1,
+                                        "maxLength": 10
+
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "lastModifiedBy" : {
+            "type" : ["string", "null"],
+            "maxLength": 256
+        },
+        "modificationComments" : {
+            "type" : "string",
+            "maxLength": 4000
+        },
+        "cidrMaps" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" :     {
+                    "name" : {
+                        "type" : "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "assignments" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "nickname" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "minLength": 1,
+                                    "maxLength": 256
+                                },
+                                "blocks" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "string",
+                                        "minLength": 1,
+                                        "maxLength": 255
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "defaultDatacenter" : {
+                        "type" : "object",
+                        "additionalProperties": false,
+                        "required": true,
+                        "properties" : {
+                            "datacenterId" : {
+                                "type" : "integer",
+                                "required": true
+                            },
+                            "nickname" : {
+                                "type" : "string",
+                                "minLength": 1,
+                                "maxLength": 128
+
+                            }
+                        }
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "defaultSslClientCertificate" : {
+            "type" : ["string", "null"]
+        }
+    }
+}

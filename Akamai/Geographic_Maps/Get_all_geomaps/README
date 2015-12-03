@@ -1,0 +1,26 @@
+    {
+        "items": [
+            {
+                "assignments": [
+                    {
+                        "countries": [
+                            "GB"
+                        ],
+                        "datacenterId": 3133,
+                        "nickname": "UK users"
+                    }
+                ],
+                "defaultDatacenter": {
+                    "datacenterId": 5400,
+                    "nickname": "Default Mapping"
+                },
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/geographic-maps/UK%20Delivery",
+                        "rel": "self"
+                    }
+                ],
+                "name": "UK Delivery"
+            }
+        ]
+    }

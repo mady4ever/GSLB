@@ -1,0 +1,73 @@
+{
+    "$schema" :  "http://json-schema.org/draft-03/schema#",
+    "type" : "object",
+    "additionalProperties": false,
+    "properties" : {
+        "name" : {
+            "type" : "string",
+            "required": true,
+            "minLength": 1,
+            "maxLength": 128
+        },
+        "defaultDatacenter" : {
+            "type" : "object",
+            "additionalProperties": false,
+            "required": true,
+            "properties" : {
+                "datacenterId" : {
+                    "type" : "integer",
+                    "required": true
+                },
+                "nickname" : {
+                    "type" : "string",
+                    "minLength": 1,
+                    "maxLength": 128
+
+                }
+            }
+        },
+        "assignments" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" : {
+                    "datacenterId" : {
+                        "type" : "integer",
+                        "required": true
+                    },
+                    "nickname" : {
+                        "type" : "string",
+                        "required": true,
+                        "minLength": 1,
+                        "maxLength": 128
+
+                    },
+                    "countries" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "string",
+                            "minLength": 1,
+                            "maxLength": 10
+
+                        }
+                    }
+                }
+            }
+        },
+        "links" : {
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "properties" : {
+                    "rel" : {
+                        "type" : "string"
+                    },
+                    "href" : {
+                        "type" : "string"
+                    }
+                }
+            }
+        }
+    }
+}

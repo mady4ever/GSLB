@@ -1,0 +1,5 @@
+Dynect API referance and testing against dynect servers.
+
+In order to access the API's of dyn, we have install Dyn python SDK.
+1] pip install dyn
+2] once above sdk is install try to use the python scripts.

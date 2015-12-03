@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="2" name="Failed suite [Ant suite]">
+  <test name="Ant test(failed)">
+    <classes>
+      <class name="com.verisign.api.sample.CreateSecondaryDomain">
+        <methods>
+          <include name="springTestContextAfterTestClass"/>
+          <include name="springTestContextBeforeTestClass"/>
+          <include name="createSecondaryZone"/>
+          <include name="springTestContextBeforeTestMethod"/>
+          <include name="springTestContextPrepareTestInstance"/>
+          <include name="beforeClass"/>
+          <include name="springTestContextAfterTestMethod"/>
+        </methods>
+      </class> <!-- com.verisign.api.sample.CreateSecondaryDomain -->
+      <class name="com.verisign.api.sample.GetAccountNameServerList">
+        <methods>
+          <include name="springTestContextAfterTestClass"/>
+          <include name="springTestContextBeforeTestClass"/>
+          <include name="springTestContextBeforeTestMethod"/>
+          <include name="springTestContextPrepareTestInstance"/>
+          <include name="beforeClass"/>
+          <include name="springTestContextAfterTestMethod"/>
+        </methods>
+      </class> <!-- com.verisign.api.sample.GetAccountNameServerList -->
+    </classes>
+  </test> <!-- Ant test(failed) -->
+</suite> <!-- Failed suite [Ant suite] -->

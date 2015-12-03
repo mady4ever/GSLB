@@ -1,0 +1,11 @@
+    {
+        "changeId": "5beb11ae-8908-4bfe-8459-e88efc4d2fdc",
+        "links": [
+            "href": "/config-gtm/v1/domains/example.akadns.net/status/current".
+            "rel": "self"
+        ],
+        "message": "Current configuration has been propagated to all toplevels",
+        "passingValidation": true,
+        "propagationStatus": "COMPLETE",
+        "propagationStatusDate": "2014-03-08T15:39:00.000+0000"
+    }

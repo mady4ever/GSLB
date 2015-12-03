@@ -1,0 +1,1 @@
+ curl -u UserNameABC:UserPassword -o dnsusage_1.csv https://mdns.verisign.com/mdnsweb/activityrep/accountId/1417533/query/csv/daily?begindate=03-30-2014\&enddate=03-31-2014\&domainnames=all\&querynames=all\&countrycodes=all\&rrtypes=all

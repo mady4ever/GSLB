@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Ant suite" duration-ms="4575" started-at="2015-10-16T15:23:33Z" finished-at="2015-10-16T15:23:37Z">
+    <groups>
+    </groups>
+    <test name="Ant test" duration-ms="4575" started-at="2015-10-16T15:23:33Z" finished-at="2015-10-16T15:23:37Z">
+      <class name="com.verisign.api.sample.GetAccountNameServerList">
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()[pri:0, instance:com.verisign.api.sample.GetAccountNameServerList@252c29c2]" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="782" started-at="2015-10-16T15:23:36Z" depends-on-methods="org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextBeforeTestClass" finished-at="2015-10-16T15:23:37Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextPrepareTestInstance -->
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()[pri:0, instance:com.verisign.api.sample.GetAccountNameServerList@252c29c2]" name="springTestContextBeforeTestClass" is-config="true" duration-ms="0" started-at="2015-10-16T15:23:36Z" finished-at="2015-10-16T15:23:36Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestClass -->
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.verisign.api.sample.GetAccountNameServerList@252c29c2]" name="beforeClass" is-config="true" duration-ms="1" started-at="2015-10-16T15:23:37Z" finished-at="2015-10-16T15:23:37Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.verisign.api.sample.GetAccountNameServerList@252c29c2]" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="0" started-at="2015-10-16T15:23:37Z" finished-at="2015-10-16T15:23:37Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[protected void com.verisign.api.sample.GetAccountNameServerList.getCustomerNameServerList()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method status="PASS" signature="getCustomerNameServerList()[pri:0, instance:com.verisign.api.sample.GetAccountNameServerList@252c29c2]" name="getCustomerNameServerList" duration-ms="63" started-at="2015-10-16T15:23:37Z" finished-at="2015-10-16T15:23:37Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- getCustomerNameServerList -->
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.verisign.api.sample.GetAccountNameServerList@252c29c2]" name="springTestContextAfterTestMethod" is-config="true" duration-ms="0" started-at="2015-10-16T15:23:37Z" finished-at="2015-10-16T15:23:37Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[protected void com.verisign.api.sample.GetAccountNameServerList.getCustomerNameServerList()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method status="PASS" signature="springTestContextAfterTestClass()[pri:0, instance:com.verisign.api.sample.GetAccountNameServerList@252c29c2]" name="springTestContextAfterTestClass" is-config="true" duration-ms="0" started-at="2015-10-16T15:23:37Z" finished-at="2015-10-16T15:23:37Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestClass -->
+      </class> <!-- com.verisign.api.sample.GetAccountNameServerList -->
+      <class name="com.verisign.api.sample.CreateSecondaryDomain">
+        <test-method status="PASS" signature="springTestContextBeforeTestClass()[pri:0, instance:com.verisign.api.sample.CreateSecondaryDomain@9736e99]" name="springTestContextBeforeTestClass" is-config="true" duration-ms="6" started-at="2015-10-16T15:23:33Z" finished-at="2015-10-16T15:23:33Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestClass -->
+        <test-method status="PASS" signature="springTestContextPrepareTestInstance()[pri:0, instance:com.verisign.api.sample.CreateSecondaryDomain@9736e99]" name="springTestContextPrepareTestInstance" is-config="true" duration-ms="3363" started-at="2015-10-16T15:23:33Z" depends-on-methods="org.springframework.test.context.testng.AbstractTestNGSpringContextTests.springTestContextBeforeTestClass" finished-at="2015-10-16T15:23:36Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextPrepareTestInstance -->
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:com.verisign.api.sample.CreateSecondaryDomain@9736e99]" name="beforeClass" is-config="true" duration-ms="0" started-at="2015-10-16T15:23:36Z" finished-at="2015-10-16T15:23:36Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="createSecondaryZone()[pri:0, instance:com.verisign.api.sample.CreateSecondaryDomain@9736e99]" name="createSecondaryZone" duration-ms="352" started-at="2015-10-16T15:23:36Z" finished-at="2015-10-16T15:23:36Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createSecondaryZone -->
+        <test-method status="PASS" signature="springTestContextBeforeTestMethod(java.lang.reflect.Method)[pri:0, instance:com.verisign.api.sample.CreateSecondaryDomain@9736e99]" name="springTestContextBeforeTestMethod" is-config="true" duration-ms="0" started-at="2015-10-16T15:23:36Z" finished-at="2015-10-16T15:23:36Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[protected void com.verisign.api.sample.CreateSecondaryDomain.createSecondaryZone()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextBeforeTestMethod -->
+        <test-method status="PASS" signature="springTestContextAfterTestMethod(java.lang.reflect.Method)[pri:0, instance:com.verisign.api.sample.CreateSecondaryDomain@9736e99]" name="springTestContextAfterTestMethod" is-config="true" duration-ms="1" started-at="2015-10-16T15:23:36Z" finished-at="2015-10-16T15:23:36Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[protected void com.verisign.api.sample.CreateSecondaryDomain.createSecondaryZone()]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestMethod -->
+        <test-method status="PASS" signature="springTestContextAfterTestClass()[pri:0, instance:com.verisign.api.sample.CreateSecondaryDomain@9736e99]" name="springTestContextAfterTestClass" is-config="true" duration-ms="0" started-at="2015-10-16T15:23:36Z" finished-at="2015-10-16T15:23:36Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- springTestContextAfterTestClass -->
+      </class> <!-- com.verisign.api.sample.CreateSecondaryDomain -->
+    </test> <!-- Ant test -->
+  </suite> <!-- Ant suite -->
+</testng-results>

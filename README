@@ -1,0 +1,5 @@
+All the tests run agians project should be included into this 'tests' folder.
+
+Akamai - This folder contians the python API's related to Akamai GTM.
+Verisign - This folder contains the JAVA API's related to verisign MDNS.
+Dynect- This folder contains the API's for Dynect.

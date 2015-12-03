@@ -1,0 +1,52 @@
+Get all available dataceters from Akamai server.
+following is response from the server.
+{
+    "items": [
+        {
+            "city": "Doune",
+            "cloneOf": 0,
+            "continent": "EU",
+            "country": "GB",
+            "datacenterId": 3133,
+            "defaultLoadObject": {
+                "loadObject": null,
+                "loadObjectPort": 0,
+                "loadServers": null
+            },
+            "latitude": 56.185097,
+            "links": [
+                {
+                    "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                    "rel": "self"
+                }
+            ],
+            "longitude": -4.050264,
+            "nickname": "Winterfell",
+            "stateOrProvince": "Perthshire",
+            "virtual": true
+        },
+        {
+            "city": "Snæfellsjökull",
+            "cloneOf": 0,
+            "continent": "EU",
+            "country": "IS",
+            "datacenterId": 3134,
+            "defaultLoadObject": {
+                "loadObject": null,
+                "loadObjectPort": 0,
+                "loadServers": null
+            },
+            "latitude": 64.808,
+            "links": [
+                {
+                    "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3134",
+                    "rel": "self"
+                }
+            ],
+            "longitude": -23.776,
+            "nickname": "Frostfangs",
+            "stateOrProvince": null,
+            "virtual": true
+        }
+    ]
+}

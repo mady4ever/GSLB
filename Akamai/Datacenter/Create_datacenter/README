@@ -1,0 +1,40 @@
+Create Datacenter on Akamai server.
+following is response from server.
+{
+    "resource": {
+        "city": "Doune",
+        "cloneOf": 0,
+        "continent": "EU",
+        "country": "GB",
+        "datacenterId": 3133,
+        "defaultLoadObject": {
+            "loadObject": null,
+            "loadObjectPort": 0,
+            "loadServers": null
+        },
+        "latitude": 56.185097,
+        "links": [
+            {
+                "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                "rel": "self"
+            }
+        ],
+        "longitude": -4.050264,
+        "nickname": "Winterfell",
+        "stateOrProvince": "Perthshire",
+        "virtual": true
+    },
+    "status": {
+        "changeId": "f0c51967-d119-4665-9403-364a57ea5530",
+        "links": [
+            {
+                "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                "rel": "self"
+            }
+        ],
+        "message": "Change Pending",
+        "passingValidation": true,
+        "propagationStatus": "PENDING",
+        "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+    }
+}

@@ -1,0 +1,104 @@
+Following is response from the akamai server.    
+{
+        "items": [
+            {
+                "balanceByDownloadScore": false,
+                "dynamicTTL": 300,
+                "failbackDelay": 0,
+                "failoverDelay": 0,
+                "handoutMode": "normal",
+                "ipv6": false,
+                "lastModified": "2014-04-07T16:21:27.000+0000",
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/properties/www",
+                        "rel": "self"
+                    }
+                ],
+                "livenessTests": [
+                    {
+                        "disableNonstandardPortWarning": false,
+                        "hostHeader": "foo.example.com",
+                        "httpError3xx": true,
+                        "httpError4xx": true,
+                        "httpError5xx": true,
+                        "name": "health-check",
+                        "testInterval": 60,
+                        "testObject": "/status",
+                        "testObjectPort": 80,
+                        "testObjectProtocol": "HTTP",
+                        "testTimeout": 25.0
+                    }
+                ],
+                "mxRecords": [],
+                "name": "www",
+                "scoreAggregationType": "mean",
+                "staticTTL": 600,
+                "stickinessBonusConstant": 0,
+                "stickinessBonusPercentage": 0,
+                "trafficTargets": [
+                    {
+                        "datacenterId": 3134,
+                        "enabled": true,
+                        "servers": [
+                            "1.2.3.5"
+                        ],
+                        "weight": 0.0
+                    },
+                    {
+                        "datacenterId": 3133,
+                        "enabled": true,
+                        "servers": [
+                            "1.2.3.4"
+                        ],
+                        "weight": 1.0
+                    }
+                ],
+                "type": "failover",
+                "useComputedTargets": false
+            },
+            {
+                "balanceByDownloadScore": false,
+                "dynamicTTL": 300,
+                "failbackDelay": 0,
+                "failoverDelay": 0,
+                "handoutMode": "normal",
+                "ipv6": true,
+                "lastModified": "2014-04-07T16:21:27.000+0000",
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/properties/mail",
+                        "rel": "self"
+                    }
+                ],
+                "livenessTests": [],
+                "mxRecords": [],
+                "name": "mail",
+                "scoreAggregationType": "mean",
+                "staticTTL": 600,
+                "stickinessBonusConstant": 0,
+                "stickinessBonusPercentage": 0,
+                "trafficTargets": [
+                    {
+                        "datacenterId": 3134,
+                        "enabled": true,
+                        "servers": [
+                            "2001:4878::5043:4078"
+                        ],
+                        "weight": 1.0
+                    },
+                    {
+                        "datacenterId": 3133,
+                        "enabled": true,
+                        "servers": [
+                            "2001:4878::5043:4072",
+                            "2001:4878::5043:4071"
+                        ],
+                        "weight": 1.0
+                    }
+                ],
+                "type": "weighted-round-robin",
+                "useComputedTargets": false
+            }
+        ]
+    }

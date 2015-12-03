@@ -1,0 +1,4541 @@
+/*
+	Auther: Mahendra Patel
+	doc version: 1.0
+	Date: 10/1/2015.
+*/
+
+Akamai API BluePrint.
+
+
+# Traffic Management {OPEN} API 
+The Internet domain name system (DNS) is a distributed system that allows computer programs to issue
+*queries* about domain names, to which the DNS returns one or more *answers*. The most common use of the DNS is to convert 
+hostnames, such as “www.customer.com”, into IP addresses,  which identify a particular computer at a particular place in the Internet. 
+
+In the most traditional use of the DNS, the answers returned for a query are static: they're 
+typed into a configuration file by a person, and change only when someone changes the file.
+
+A dynamic DNS system returns answers that are computed on the fly, and can
+vary from query to query. A typical use is to return the IP address of a server that's
+assigned dynamically via DHCP, and can change from time to time, as is common
+with most home Internet connections.
+
+Akamai's GTM system is a dynamic DNS system; it manages traffic to your data centers 
+by choosing the best answers, from moment to moment, to return to client
+nameservers in response to their queries about GTM domains.
+
+# Group Domains
+A Traffic Management domain is a domain with one or more subdomains that share a number of attributes that can only be configured domain-wide. These attributes include use of load feedback, load imbalance factor, the set of available data centers, etc.
+Each Domain object is a representation of a complete GTM domain (e.g., example.akadns.net)
+
+
+## Domains Collection [/config-gtm/v1/domains/]
+### List Domains [GET]
+
++ Response 200 (application/json)
+
+        {
+            "items" : [
+                {
+                    "acgId": "1-2345",
+                    "lastModified": "2014-03-03T16:02:45.000+0000",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net",
+                            "rel": "self"
+                        }
+                    ],
+                    "name": "example.akadns.net",
+                    "status": "2014-02-20 22:56 GMT: Current configuration has been propagated to all toplevels"
+                }, 
+                {
+                    "acgId": "1-2345",
+                    "lastModified": "2013-11-09T12:04:45.000+0000",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/demo.akadns.net",
+                            "rel": "self"
+                        }
+                    ],
+                    "name": "demo.akadns.net",
+                    "status": "2014-02-20 22:56 GMT: Current configuration has been propagated to all toplevels"
+                }
+            ]
+        }
+        
+## Traffic Management Domain [/config-gtm/v1/domains/{domain}]
+### Fetch individual domain [GET]
+
++ Parameters
+    + domain (required, string, `example.akadns.net`) ... Name of Traffic Management domain.
+
++ Response 200 (application/json)
+
+            {
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net",
+                        "rel": "self"
+                    },
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/datacenters",
+                        "rel": "datacenters"
+                    },
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/properties",
+                        "rel": "properties"
+                    },
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/geographic-maps",
+                        "rel": "geographic-maps"
+                    },
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/cidr-maps",
+                        "rel": "cidr-maps"
+                    },
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/resources",
+                        "rel": "resources"
+                    }
+                ],
+                "cidrMaps": [
+                    {
+                        "assignments": [
+                            {
+                                "blocks": [
+                                    "1.3.5.9",
+                                    "1.2.3.0/24"
+                                ],
+                                "datacenterId": 3134,
+                                "nickname": "Frostfangs and the Fist of First Men"
+                            },
+                            {
+                                "blocks": [
+                                    "1.2.4.0/24"
+                                ],
+                                "datacenterId": 3133,
+                                "nickname": "Winterfell"
+                            }
+                        ],
+                        "defaultDatacenter": {
+                            "datacenterId": 5400,
+                            "nickname": "All Other CIDR Blocks"
+                        },
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/cidr-maps/The%20North",
+                                "rel": "self"
+                            }
+                        ],
+                        "name": "The North"
+                    }
+                ],
+                "datacenters": [
+                    {
+                        "city": "Downpatrick",
+                        "cloneOf": 0,
+                        "continent": "EU",
+                        "country": "GB",
+                        "datacenterId": 3133,
+                        "defaultLoadObject": {
+                            "loadObject": null,
+                            "loadObjectPort": 0,
+                            "loadServers": null
+                        },
+                        "latitude": 54.367,
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                                "rel": "self"
+                            }
+                        ],
+                        "longitude": -5.582,
+                        "nickname": "Winterfell",
+                        "stateOrProvince": null,
+                        "virtual": true
+                    },
+                    {
+                        "city": "Doune",
+                        "cloneOf": 0,
+                        "continent": "EU",
+                        "country": "GB",
+                        "datacenterId": 3134,
+                        "defaultLoadObject": {
+                            "loadObject": null,
+                            "loadObjectPort": 0,
+                            "loadServers": null
+                        },
+                        "latitude": 56.185097,
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3134",
+                                "rel": "self"
+                            }
+                        ],
+                        "longitude": -4.050264,
+                        "nickname": "Winterfell",
+                        "stateOrProvince": "Perthshire",
+                        "virtual": true
+                    },
+                    {
+                        "city": null,
+                        "cloneOf": 0,
+                        "continent": null,
+                        "country": null,
+                        "datacenterId": 5400,
+                        "defaultLoadObject": {
+                            "loadObject": null,
+                            "loadObjectPort": 0,
+                            "loadServers": null
+                        },
+                        "latitude": 0.0,
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/5400",
+                                "rel": "self"
+                            }
+                        ],
+                        "longitude": 0.0,
+                        "nickname": "Default Datacenter",
+                        "stateOrProvince": null,
+                        "virtual": true
+                    }
+                ],
+                "defaultSslClientCertificate": null,
+                "defaultSslClientPrivateKey": null,
+                "defaultUnreachableThreshold": null,
+                "emailNotificationList": [],
+                "geographicMaps": [
+                    {
+                        "assignments": [
+                            {
+                                "countries": [
+                                    "GB"
+                                ],
+                                "datacenterId": 3133,
+                                "nickname": "UK users"
+                            }
+                        ],
+                        "defaultDatacenter": {
+                            "datacenterId": 5400,
+                            "nickname": "Default Mapping"
+                        },
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/geographic-maps/UK%20Delivery",
+                                "rel": "self"
+                            }
+                        ],
+                        "name": "UK Delivery"
+                    }
+                ],
+                "lastModified": "2014-04-08T18:25:51.000+0000",
+                "lastModifiedBy": "admin@example.com",
+                "loadFeedback": true,
+                "loadImbalancePercentage": 10.0,
+                "minPingableRegionFraction": null,
+                "modificationComments": "CIDRMap example",
+                "name": "example.akadns.net",
+                "pingInterval": null,
+                "properties": [
+                    {
+                        "backupCName": null,
+                        "backupIp": null,
+                        "balanceByDownloadScore": false,
+                        "cname": null,
+                        "comments": null,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "healthMax": null,
+                        "healthMultiplier": null,
+                        "healthThreshold": null,
+                        "ipv6": false,
+                        "lastModified": "2014-04-08T18:25:52.000+0000",
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/properties/www",
+                                "rel": "self"
+                            }
+                        ],
+                        "livenessTests": [
+                            {
+                                "disableNonstandardPortWarning": false,
+                                "hostHeader": "foo.example.com",
+                                "httpError3xx": true,
+                                "httpError4xx": true,
+                                "httpError5xx": true,
+                                "links": [],
+                                "name": "health-check",
+                                "requestString": null,
+                                "responseString": null,
+                                "sslClientCertificate": null,
+                                "sslClientPrivateKey": null,
+                                "testInterval": 60,
+                                "testObject": "/status",
+                                "testObjectPassword": null,
+                                "testObjectPort": 80,
+                                "testObjectProtocol": "HTTP",
+                                "testObjectUsername": null,
+                                "testTimeout": 25.0
+                            }
+                        ],
+                        "mapName": null,
+                        "maxUnreachablePenalty": null,
+                        "mxRecords": [],
+                        "name": "www",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 5400,
+                                "enabled": false,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3134,
+                                "enabled": true,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [
+                                    "1.2.3.5"
+                                ],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [
+                                    "1.2.3.4"
+                                ],
+                                "weight": 1.0
+                            }
+                        ],
+                        "type": "failover",
+                        "unreachableThreshold": null,
+                        "useComputedTargets": false
+                    },
+                    {
+                        "backupCName": null,
+                        "backupIp": null,
+                        "balanceByDownloadScore": false,
+                        "cname": null,
+                        "comments": null,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "healthMax": null,
+                        "healthMultiplier": null,
+                        "healthThreshold": null,
+                        "ipv6": true,
+                        "lastModified": "2014-04-08T18:25:52.000+0000",
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/properties/mail",
+                                "rel": "self"
+                            }
+                        ],
+                        "livenessTests": [],
+                        "loadImbalancePercentage": null,
+                        "mapName": null,
+                        "maxUnreachablePenalty": null,
+                        "mxRecords": [],
+                        "name": "mail",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 5400,
+                                "enabled": false,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3134,
+                                "enabled": true,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [
+                                    "2001:4878::5043:4078"
+                                ],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [
+                                    "2001:4878::5043:4072",
+                                    "2001:4878::5043:4071"
+                                ],
+                                "weight": 1.0
+                            }
+                        ],
+                        "type": "weighted-round-robin",
+                        "unreachableThreshold": null,
+                        "useComputedTargets": false
+                    },
+                    {
+                        "backupCName": null,
+                        "backupIp": null,
+                        "balanceByDownloadScore": false,
+                        "cname": null,
+                        "comments": null,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "healthMax": null,
+                        "healthMultiplier": null,
+                        "healthThreshold": null,
+                        "ipv6": false,
+                        "lastModified": "2014-04-08T18:25:52.000+0000",
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/properties/supplies",
+                                "rel": "self"
+                            }
+                        ],
+                        "livenessTests": [],
+                        "loadImbalancePercentage": null,
+                        "mapName": null,
+                        "maxUnreachablePenalty": null,
+                        "mxRecords": [],
+                        "name": "supplies",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 5400,
+                                "enabled": false,
+                                "handoutCName": "supplies.example.com",
+                                "name": null,
+                                "servers": [],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3134,
+                                "enabled": true,
+                                "handoutCName": "winter.supplies.example.com",
+                                "name": null,
+                                "servers": [],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "handoutCName": "redcross.org",
+                                "name": null,
+                                "servers": [],
+                                "weight": 0.0
+                            }
+                        ],
+                        "type": "failover",
+                        "unreachableThreshold": null,
+                        "useComputedTargets": false
+                    },
+                    {
+                        "backupCName": null,
+                        "backupIp": null,
+                        "balanceByDownloadScore": false,
+                        "cname": null,
+                        "comments": null,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "healthMax": null,
+                        "healthMultiplier": null,
+                        "healthThreshold": null,
+                        "ipv6": false,
+                        "lastModified": "2014-04-08T18:25:52.000+0000",
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/properties/shop",
+                                "rel": "self"
+                            }
+                        ],
+                        "livenessTests": [],
+                        "loadImbalancePercentage": null,
+                        "mapName": "UK Delivery",
+                        "maxUnreachablePenalty": null,
+                        "mxRecords": [],
+                        "name": "shop",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 5400,
+                                "enabled": true,
+                                "handoutCName": "shop.example.com",
+                                "name": null,
+                                "servers": [],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3134,
+                                "enabled": false,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "handoutCName": "uk.shop.example.com",
+                                "name": null,
+                                "servers": [],
+                                "weight": 1.0
+                            }
+                        ],
+                        "type": "geographic",
+                        "unreachableThreshold": null,
+                        "useComputedTargets": false
+                    }
+                ],
+                "resources": [
+                    {
+                        "aggregationType": "latest",
+                        "constrainedProperty": "mail",
+                        "decayRate": null,
+                        "description": "CPU utilization",
+                        "hostHeader": null,
+                        "leaderString": null,
+                        "leastSquaresDecay": null,
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/resources/cpu",
+                                "rel": "self"
+                            }
+                        ],
+                        "loadImbalancePercentage": null,
+                        "maxUMultiplicativeIncrement": null,
+                        "name": "cpu",
+                        "resourceInstances": [
+                            {
+                                "datacenterId": 3134,
+                                "loadObject": "/cpu",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.8"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "loadObject": "/cpu",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.7"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 5400,
+                                "loadObject": null,
+                                "loadObjectPort": 0,
+                                "loadServers": [],
+                                "useDefaultLoadObject": false
+                            }
+                        ],
+                        "type": "XML load object via HTTP",
+                        "upperBound": 0
+                    },
+                    {
+                        "aggregationType": "latest",
+                        "constrainedProperty": "**",
+                        "decayRate": null,
+                        "description": "Supply levels of Arbor Gold",
+                        "hostHeader": null,
+                        "leaderString": null,
+                        "leastSquaresDecay": null,
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/resources/arbor-gold",
+                                "rel": "self"
+                            }
+                        ],
+                        "loadImbalancePercentage": null,
+                        "maxUMultiplicativeIncrement": null,
+                        "name": "arbor-gold",
+                        "resourceInstances": [
+                            {
+                                "datacenterId": 3134,
+                                "loadObject": "/cups",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.8"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "loadObject": "/cups",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.7"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 5400,
+                                "loadObject": null,
+                                "loadObjectPort": 0,
+                                "loadServers": [],
+                                "useDefaultLoadObject": false
+                            }
+                        ],
+                        "type": "Non-XML load object via HTTP",
+                        "upperBound": 0
+                    }
+                ],
+                "roundRobinPrefix": null,
+                "servermonitorLivenessCount": null,
+                "servermonitorLoadCount": null,
+                "status": {
+                    "changeId": "5beb11ae-8908-4bfe-8459-e88efc4d2fdc",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current".
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-08T18:25:51.000+0000"
+                },
+                "type": "full"
+            }
+
+
+### Create or update a domain [PUT]
+
++ Parameters
+    + domain (required, string, `example.akadns.net`) ... Name of Traffic Management domain.
+  
+
++ Request (application/json)
+
+    + Body
+
+            {
+                "cidrMaps": [
+                    {
+                        "assignments": [
+                            {
+                                "blocks": [
+                                    "1.3.5.9",
+                                    "1.2.3.0/24"
+                                ],
+                                "datacenterId": 3134,
+                                "nickname": "Frostfangs and the Fist of First Men"
+                            },
+                            {
+                                "blocks": [
+                                    "1.2.4.0/24"
+                                ],
+                                "datacenterId": 3133,
+                                "nickname": "Winterfell"
+                            }
+                        ],
+                        "defaultDatacenter": {
+                            "datacenterId": 5400,
+                            "nickname": "All Other CIDR Blocks"
+                        },
+                        "name": "The North"
+                    }
+                ],
+                "datacenters": [
+                    {
+                        "city": "Doune",
+                        "cloneOf": 0,
+                        "continent": "EU",
+                        "country": "GB",
+                        "datacenterId": 3133,
+                        "defaultLoadObject": {
+                            "loadObject": null,
+                            "loadObjectPort": 0,
+                            "loadServers": null
+                        },
+                        "latitude": 56.185097,
+                        "longitude": -4.050264,
+                        "nickname": "Winterfell",
+                        "stateOrProvince": "Perthshire",
+                        "virtual": true
+                    },
+                    {
+                        "city": "Snæfellsjökull",
+                        "cloneOf": 0,
+                        "continent": "EU",
+                        "country": "IS",
+                        "datacenterId": 3134,
+                        "defaultLoadObject": {
+                            "loadObject": null,
+                            "loadObjectPort": 0,
+                            "loadServers": null
+                        },
+                        "latitude": 64.808,
+                        "longitude": -23.776,
+                        "nickname": "Frostfangs",
+                        "stateOrProvince": null,
+                        "virtual": true
+                    },
+                    {
+                        "city": null,
+                        "cloneOf": 0,
+                        "continent": null,
+                        "country": null,
+                        "datacenterId": 5400,
+                        "defaultLoadObject": {
+                            "loadObject": null,
+                            "loadObjectPort": 0,
+                            "loadServers": null
+                        },
+                        "latitude": 0.0,
+                        "longitude": 0.0,
+                        "nickname": "Default Datacenter",
+                        "stateOrProvince": null,
+                        "virtual": true
+                    }
+                ],
+                "defaultSslClientCertificate": null,
+                "defaultSslClientPrivateKey": null,
+                "defaultUnreachableThreshold": null,
+                "emailNotificationList": [],
+                "geographicMaps": [
+                    {
+                        "assignments": [
+                            {
+                                "countries": [
+                                    "GB"
+                                ],
+                                "datacenterId": 3133,
+                                "nickname": "UK users"
+                            }
+                        ],
+                        "defaultDatacenter": {
+                            "datacenterId": 5400,
+                            "nickname": "Default Mapping"
+                        },
+                        "name": "UK Delivery"
+                    }
+                ],
+                "lastModified": "2014-04-08T18:25:51.000+0000",
+                "lastModifiedBy": "admin@example.com",
+                "loadFeedback": true,
+                "loadImbalancePercentage": 10.0,
+                "minPingableRegionFraction": null,
+                "modificationComments": "CIDRMap example",
+                "name": "example.akadns.net",
+                "pingInterval": null,
+                "properties": [
+                    {
+                        "backupCName": null,
+                        "backupIp": null,
+                        "balanceByDownloadScore": false,
+                        "cname": null,
+                        "comments": null,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "healthMax": null,
+                        "healthMultiplier": null,
+                        "healthThreshold": null,
+                        "ipv6": false,
+                        "lastModified": "2014-04-08T18:25:52.000+0000",
+                        "livenessTests": [
+                            {
+                                "disableNonstandardPortWarning": false,
+                                "hostHeader": "foo.example.com",
+                                "httpError3xx": true,
+                                "httpError4xx": true,
+                                "httpError5xx": true,
+                                "name": "health-check",
+                                "requestString": null,
+                                "responseString": null,
+                                "sslClientCertificate": null,
+                                "sslClientPrivateKey": null,
+                                "testInterval": 60,
+                                "testObject": "/status",
+                                "testObjectPassword": null,
+                                "testObjectPort": 80,
+                                "testObjectProtocol": "HTTP",
+                                "testObjectUsername": null,
+                                "testTimeout": 25.0
+                            }
+                        ],
+                        "mapName": null,
+                        "maxUnreachablePenalty": null,
+                        "mxRecords": [],
+                        "name": "www",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 5400,
+                                "enabled": false,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3134,
+                                "enabled": true,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [
+                                    "1.2.3.5"
+                                ],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [
+                                    "1.2.3.4"
+                                ],
+                                "weight": 1.0
+                            }
+                        ],
+                        "type": "failover",
+                        "unreachableThreshold": null,
+                        "useComputedTargets": false
+                    },
+                    {
+                        "backupCName": null,
+                        "backupIp": null,
+                        "balanceByDownloadScore": false,
+                        "cname": null,
+                        "comments": null,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "healthMax": null,
+                        "healthMultiplier": null,
+                        "healthThreshold": null,
+                        "ipv6": true,
+                        "lastModified": "2014-04-08T18:25:52.000+0000",
+                        "livenessTests": [],
+                        "mapName": null,
+                        "maxUnreachablePenalty": null,
+                        "mxRecords": [],
+                        "name": "mail",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 5400,
+                                "enabled": false,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3134,
+                                "enabled": true,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [
+                                    "2001:4878::5043:4078"
+                                ],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [
+                                    "2001:4878::5043:4072",
+                                    "2001:4878::5043:4071"
+                                ],
+                                "weight": 1.0
+                            }
+                        ],
+                        "type": "weighted-round-robin",
+                        "unreachableThreshold": null,
+                        "useComputedTargets": false
+                    },
+                    {
+                        "backupCName": null,
+                        "backupIp": null,
+                        "balanceByDownloadScore": false,
+                        "cname": null,
+                        "comments": null,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "healthMax": null,
+                        "healthMultiplier": null,
+                        "healthThreshold": null,
+                        "ipv6": false,
+                        "lastModified": "2014-04-08T18:25:52.000+0000",
+                        "livenessTests": [],
+                        "loadImbalancePercentage": null,
+                        "mapName": null,
+                        "maxUnreachablePenalty": null,
+                        "mxRecords": [],
+                        "name": "supplies",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 5400,
+                                "enabled": true,
+                                "handoutCName": "supplies.example.com",
+                                "name": null,
+                                "servers": [],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3134,
+                                "enabled": true,
+                                "handoutCName": "winter.supplies.example.com",
+                                "name": null,
+                                "servers": [],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "handoutCName": "redcross.org",
+                                "name": null,
+                                "servers": [],
+                                "weight": 0.0
+                            }
+                        ],
+                        "type": "failover",
+                        "unreachableThreshold": null,
+                        "useComputedTargets": false
+                    },
+                    {
+                        "backupCName": null,
+                        "backupIp": null,
+                        "balanceByDownloadScore": false,
+                        "cname": null,
+                        "comments": null,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "healthMax": null,
+                        "healthMultiplier": null,
+                        "healthThreshold": null,
+                        "ipv6": false,
+                        "lastModified": "2014-04-08T18:25:52.000+0000",
+                        "livenessTests": [],
+                        "loadImbalancePercentage": null,
+                        "mapName": "UK Delivery",
+                        "maxUnreachablePenalty": null,
+                        "mxRecords": [],
+                        "name": "shop",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 5400,
+                                "enabled": true,
+                                "handoutCName": "shop.example.com",
+                                "name": null,
+                                "servers": [],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3134,
+                                "enabled": false,
+                                "handoutCName": null,
+                                "name": null,
+                                "servers": [],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "handoutCName": "uk.shop.example.com",
+                                "name": null,
+                                "servers": [],
+                                "weight": 1.0
+                            }
+                        ],
+                        "type": "geographic",
+                        "unreachableThreshold": null,
+                        "useComputedTargets": false
+                    }
+                ],
+                "resources": [
+                    {
+                        "aggregationType": "latest",
+                        "constrainedProperty": "mail",
+                        "decayRate": null,
+                        "description": "CPU utilization",
+                        "hostHeader": null,
+                        "leaderString": null,
+                        "leastSquaresDecay": null,
+                        "loadImbalancePercentage": null,
+                        "maxUMultiplicativeIncrement": null,
+                        "name": "cpu",
+                        "resourceInstances": [
+                            {
+                                "datacenterId": 3134,
+                                "loadObject": "/cpu",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.8"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "loadObject": "/cpu",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.7"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 5400,
+                                "loadObject": null,
+                                "loadObjectPort": 0,
+                                "loadServers": [],
+                                "useDefaultLoadObject": false
+                            }
+                        ],
+                        "type": "XML load object via HTTP",
+                        "upperBound": 0
+                    },
+                    {
+                        "aggregationType": "latest",
+                        "constrainedProperty": "**",
+                        "decayRate": null,
+                        "description": "Supply levels of Arbor Gold",
+                        "hostHeader": null,
+                        "leaderString": null,
+                        "leastSquaresDecay": null,
+                        "loadImbalancePercentage": null,
+                        "maxUMultiplicativeIncrement": null,
+                        "name": "arbor-gold",
+                        "resourceInstances": [
+                            {
+                                "datacenterId": 3134,
+                                "loadObject": "/cups",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.8"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "loadObject": "/cups",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.7"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 5400,
+                                "loadObject": null,
+                                "loadObjectPort": 0,
+                                "loadServers": [],
+                                "useDefaultLoadObject": false
+                            }
+                        ],
+                        "type": "Non-XML load object via HTTP",
+                        "upperBound": 0
+                    }
+                ],
+                "roundRobinPrefix": null,
+                "servermonitorLivenessCount": null,
+                "servermonitorLoadCount": null,
+                "type": "full"
+            }
+
+    + Schema
+
+            {
+                "$schema" :  "http://json-schema.org/draft-03/schema#",
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" : {
+                    "resources" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "leastSquaresDecay" : {
+                                    "type" : "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "hostHeader" : {
+                                    "type" : "string",
+                                    "maxLength" : 255
+                                },
+                                "description" : {
+                                    "type" : "string",
+                                    "maxLength" : 256
+                                },
+                                "leaderString" : {
+                                    "type" : "string",
+                                    "maxLength" : 256
+                                },
+                                "constrainedProperty" : {
+                                    "type" : "string",
+                                    "maxLength": 256
+                                },
+                                "resourceInstances" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "datacenterId" : {
+                                                "type" : "integer",
+                                                "required": true
+                                            },
+                                            "useDefaultLoadObject" : {
+                                                "type" : "boolean"
+                                            },
+                                            "loadServers" : {
+                                                "type" : "array",
+                                                "items" : {
+                                                    "type" : "string"
+                                                }
+                                            },
+                                            "loadObject" : {
+                                                "type" : "string",
+                                                "maxLength" : 256,
+                                                "pattern" : "^(?!:).*$"
+                                            },
+                                            "loadObjectPort" : {
+                                                "type" : "integer",
+                                                "minimum": 0,
+                                                "maximum": 65535
+                                            }
+                                        }
+                                    }
+                                },
+                                "aggregationType" : {
+                                    "type" : "string",
+                                    "maxLength": 15,
+                                    "required" : true,
+                                    "enum" :  ["sum", "median", "latest"]
+                                },
+                                "links" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "rel" : {
+                                                "type" : "string"
+                                            },
+                                            "href" : {
+                                                "type" : "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "loadImbalancePercentage" : {
+                                    "type" : "number",
+                                    "minimum": 0,
+                                    "maximum": 1000000
+                                },
+                                "type" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "enum" :  ["XML load object via HTTP", "XML load object via HTTPS", "Non-XML load object via HTTP", "Non-XML load object via HTTPS", "Download score"]
+                                },
+                                "upperBound" : {
+                                    "type" : "integer"
+                                },
+                                "name" : {
+                                    "type" : "string",
+                                    "required": true,
+                                    "maxLength": 150,
+                                    "pattern" : "^((?!\\s).)*$"
+                                },
+                                "maxUMultiplicativeIncrement" : {
+                                    "type" : "number",
+                                    "minimum" : 1.0
+                                },
+                                "decayRate" : {
+                                    "type" : "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            }
+                        }
+                    },
+                    "emailNotificationList" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "string",
+                            "format": "email"
+                        }
+                    },
+                    "type" : {
+                        "type" : "string",
+                        "required": true,
+                        "enum": ["failover-only", "static", "weighted", "basic", "full"]
+                    },
+                    "defaultTimeoutPenalty" : {
+                        "type" : "integer"
+                    },
+                    "datacenters" : {
+                        "type" : "array",
+                        "required": true,
+                        "items" : {
+                            "type" : "object",
+                            "properties": {
+                                "city": {
+                                    "type": "string"
+                                },
+                                "cloneOf": {
+                                    "type": "integer"
+                                },
+                                "continent": {
+                                    "type": "string",
+                                    "maxLength": 2,
+                                    "enum": ["AF", "AS", "EU", "NA", "OC", "OT", "SA"]
+                                },
+                                "country": {
+                                    "type": "string",
+                                    "maxLength": 2
+                                },
+                                "defaultLoadObject": {
+                                    "type": "object",
+                                    "properties": {
+                                        "loadObject": {
+                                            "type": "string",
+                                            "maxLength" : 256,
+                                            "pattern" : "^(?!:).*$"
+                                        },
+                                        "loadObjectPort": {
+                                            "type": "integer",
+                                            "minimum": 0,
+                                            "maximum": 65535
+                                        },
+                                        "loadServers": {
+                                            "items": {
+                                                "type": "string",
+                                                "maxLength": 256
+                                            },
+                                            "type": "array"
+                                        }
+                                    }
+                                },
+                                "latitude": {
+                                    "type": "number"
+                                },
+                                "links": {
+                                    "items": {
+                                        "properties": {
+                                            "href": {
+                                                "type": "string"
+                                            },
+                                            "rel": {
+                                                "type": "string"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                },
+                                "longitude": {
+                                    "type": "number"
+                                },
+                                "nickname": {
+                                    "type": "string"
+                                },
+                                "datacenterId": {
+                                    "required": true,
+                                    "type": "integer"
+                                },
+                                "stateOrProvince": {
+                                    "type": "string"
+                                },
+                                "virtual": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "name" : {
+                        "type" : "string",
+                        "required": true,
+                        "minLength": 1,
+                        "maxLength": 100
+                    },
+                    "loadImbalancePercentage" : {
+                        "type" : "number",
+                        "minimum": 0,
+                        "maximum": 1000000
+                    },
+                    "lastModified" : {
+                        "type" : "string",
+                        "format" : "date-time"
+                    },
+                    "status" : {
+                        "type" : "object",
+                        "properties" : {
+                            "changeId" : {
+                                "type" : "string",
+                                "maxLength" : 36
+                            },
+                            "links": {
+                                "items": {
+                                    "properties": {
+                                        "href": {
+                                            "type": "string"
+                                        },
+                                        "rel": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                },
+                                "type": "array"
+                            },
+                            "message" : {
+                                "type" : "string",
+                                "maxLength" : 4000
+                            },
+                            "propagationStatus" : {
+                                "type" : "string",
+                                "maxLength" : 20,
+                                "enum": ["DENIED", "PENDING", "COMPLETE"]
+                            },
+                            "propagationStatusDate" : {
+                                "type" : "string",
+                                "format" : "date-time"
+                            },
+                            "passingValidation" : {
+                                "type" : "boolean"
+                            }
+                        }
+                    },
+                    "acgid" : {
+                        "type" : "string"
+                    },
+                    "defaultSslClientPrivateKey" : {
+                        "type" : "string"
+                    },
+                    "defaultErrorPenalty" : {
+                        "type" : "integer"
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "properties" : {
+                        "type" : "array",
+                        "required": true,
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "ipv6" : {
+                                    "type" : "boolean"
+                                },
+                                "scoreAggregationType" : {
+                                    "type" : "string"
+                                },
+                                "stickinessBonusPercentage" : {
+                                    "type" : "integer",
+                                    "minimum": 0,
+                                    "maximum": 100
+                                },
+                                "stickinessBonusConstant" : {
+                                    "type" : "integer",
+                                    "minimum": 0,
+                                    "maximum": 30000
+                                },
+                                "trafficTargets" : {
+                                    "type" : "array",
+                                    "required": true,
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "datacenterId" : {
+                                                "type" : "integer"
+                                            },
+                                            "enabled" : {
+                                                "type" : "boolean"
+                                            },
+                                            "weight" : {
+                                                "minimum": 0,
+                                                "type" : "number"
+                                            },
+                                            "servers" : {
+                                                "type" : "array",
+                                                "items" : {
+                                                    "type" : "string"
+                                                }
+                                            },
+                                            "name" : {
+                                                "type" : "string"
+                                            },
+                                            "handoutCName" : {
+                                                "type" : "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "type" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "enum" : ["failover", "geographic", "cidrmapping", "weighted-round-robin", "weighted-round-robin-load-feedback", "qtr", "performance"]
+                                },
+                                "healthThreshold" : {
+                                    "type" : "number"
+                                },
+                                "useComputedTargets" : {
+                                    "type" : "boolean"
+                                },
+                                "backupIp" : {
+                                    "type" : "string"
+                                },
+                                "balanceByDownloadScore" : {
+                                    "type" : "boolean"
+                                },
+                                "propertyId" : {
+                                    "type" : "integer"
+                                },
+                                "mxRecords" : {
+                                   "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "exchange" : {
+                                                "type" : "string"
+                                            },
+                                            "preference" : {
+                                                "type" : "number"
+                                            }
+                                        }
+                                    }
+                                },
+                                "staticTTL" : {
+                                    "type" : "integer",
+                                    "minimum" : 30,
+                                    "maximum" : 3600
+                                },
+                                "lastModified" : {
+                                    "type" : "string",
+                                    "format" : "date-time"
+                                },
+                                "unreachableThreshold" : {
+                                    "type" : "number",
+                                    "minimum" : 0,
+                                    "maximum" : 1
+                                },
+                                "name" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "maxLength" : 256,
+                                    "pattern": "^[\\w-]+(\\.[\\w-]+)*$"
+                                },
+                                "links" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "rel" : {
+                                                "type" : "string"
+                                            },
+                                            "href" : {
+                                                "type" : "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "healthMultiplier" : {
+                                    "type" : "number"
+                                },
+                                "dynamicTTL" : {
+                                    "type" : "integer",
+                                    "minimum": 30,
+                                    "maximum" : 3600
+                                },
+                                "maxUnreachablePenalty" : {
+                                    "type" : "number"
+                                },
+                                "mapName" : {
+                                    "type" : "string"
+                                },
+                                "handoutMode" : {
+                                    "type" : "string",
+                                    "enum":  ["normal","persistent","one-ip","one-ip-hashed", "all-live-ips"]
+                                },
+                                "failoverDelay" : {
+                                    "type" : "integer",
+                                    "minimum": 0
+                                },
+                                "backupCName" : {
+                                    "type" : "string"
+                                },
+                                "livenessTests" : {
+                                    "type" : "array",
+                                    "required" : true,
+                                    "items" : {
+                                        "type" : "object",
+                                        "additionalProperties": false,
+                                        "properties" : {
+                                            "name" : {
+                                                "type" : "string",
+                                                "required" : true,
+                                                "minLength" : 1,
+                                                "maxLength" : 128
+                                            },
+                                            "testInterval" : {
+                                                "type" : "integer",
+                                                "required" : true,
+                                                "minimum" : 10
+                                            },
+                                            "testObject" : {
+                                                "type" : "string",
+                                                "maxLength": 256
+                                            },
+                                            "links" : {
+                                                "type" : "array",
+                                                "items" : {
+                                                    "type" : "object",
+                                                    "properties" : {
+                                                        "rel" : {
+                                                            "type" : "string"
+                                                        },
+                                                        "href" : {
+                                                            "type" : "string"
+                                                        }
+                                                    }
+                                                }
+                                            },
+                                            "requestString" : {
+                                                "type" : "string",
+                                                "maxLength": 512
+                                            },
+                                            "httpError4xx" : {
+                                                "type" : "boolean"
+                                            },
+                                            "responseString" : {
+                                                "type" : "string"
+                                            },
+                                            "testObjectProtocol" : {
+                                                "type" : "string",
+                                                "required" : true,
+                                                "enum": ["HTTP", "HTTPS", "FTP", "POP", "POPS", "SMTP", "SMTPS", "TCP", "TCPS"]
+                                            },
+                                            "testObjectPassword" : {
+                                                "type" : "string",
+                                                "maxLength": 128
+                                            },
+                                            "sslClientPrivateKey" : {
+                                                "type" : "string"
+                                            },
+                                            "testObjectPort" : {
+                                                "type" : "integer",
+                                                "minimum": 1,
+                                                "maximum": 65535
+                                            },
+                                            "httpError3xx" : {
+                                                "type" : "boolean"
+                                            },
+                                            "httpError5xx" : {
+                                                "type" : "boolean"
+                                            },
+                                            "disableNonstandardPortWarning" : {
+                                                "type" : "boolean"
+                                            },
+                                            "hostHeader" : {
+                                                "type" : "string",
+                                                "maxLength": 256
+                                            },
+                                            "sslClientCertificate" : {
+                                                "type" : "string"
+                                            },
+                                            "testObjectUsername" : {
+                                                "type" : "string",
+                                                "maxLength": 512
+                                            },
+                                            "testTimeout" : {
+                                                "type" : "number",
+                                                "required" : true,
+                                                "minimum" : 0.001
+                                            }
+                                        }
+                                    }
+                                },
+                                "failbackDelay" : {
+                                    "type" : "integer",
+                                    "minimum": 0
+                                },
+                                "loadImbalancePercentage" : {
+                                    "type" : "number",
+                                    "minimum": 0,
+                                    "maximum": 1000000
+                                },
+                                "healthMax" : {
+                                    "type" : "number"
+                                },
+                                "comments" : {
+                                    "type" : "string",
+                                    "maxLength" : 1000
+                                },
+                                "cname" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "loadFeedback" : {
+                        "type" : "boolean"
+                    },
+                    "geographicMaps" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "name" : {
+                                    "type" : "string",
+                                    "required": true,
+                                    "minLength": 1,
+                                    "maxLength": 128
+                                },
+                                "defaultDatacenter" : {
+                                    "type" : "object",
+                                    "additionalProperties": false,
+                                    "required": true,
+                                    "properties" : {
+                                        "datacenterId" : {
+                                            "type" : "integer",
+                                            "required": true
+                                        },
+                                        "nickname" : {
+                                            "type" : "string",
+                                            "minLength": 1,
+                                            "maxLength": 128
+            
+                                        }
+                                    }
+                                },
+                                "assignments" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "additionalProperties": false,
+                                        "properties" : {
+                                            "datacenterId" : {
+                                                "type" : "integer",
+                                                "required": true
+                                            },
+                                            "nickname" : {
+                                                "type" : "string",
+                                                "required": true,
+                                                "minLength": 1,
+                                                "maxLength": 128
+            
+                                            },
+                                            "countries" : {
+                                                "type" : "array",
+                                                "items" : {
+                                                    "type" : "string",
+                                                    "minLength": 1,
+                                                    "maxLength": 10
+            
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "defaultDatacenterId": {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "links" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "rel" : {
+                                                "type" : "string"
+                                            },
+                                            "href" : {
+                                                "type" : "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "lastModifiedBy" : {
+                        "type" : "string",
+                        "maxLength": 256
+                    },
+                    "modificationComments" : {
+                        "type" : "string",
+                        "maxLength": 4000
+                    },
+                    "cidrMaps" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" :     {
+                                "name" : {
+                                    "type" : "string",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                },
+                                "assignments" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "additionalProperties": false,
+                                        "properties" : {
+                                            "datacenterId" : {
+                                                "type" : "integer",
+                                                "required": true
+                                            },
+                                            "nickname" : {
+                                                "type" : "string",
+                                                "required" : true,
+                                                "minLength": 1,
+                                                "maxLength": 256
+                                            },
+                                            "blocks" : {
+                                                "type" : "array",
+                                                "items" : {
+                                                    "type" : "string",
+                                                    "minLength": 1,
+                                                    "maxLength": 255
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                "defaultDatacenter" : {
+                                    "type" : "object",
+                                    "additionalProperties": false,
+                                    "required": true,
+                                    "properties" : {
+                                        "datacenterId" : {
+                                            "type" : "integer",
+                                            "required": true
+                                        },
+                                        "nickname" : {
+                                            "type" : "string",
+                                            "minLength": 1,
+                                            "maxLength": 128
+            
+                                        }
+                                    }
+                                },
+                                "links" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "rel" : {
+                                                "type" : "string"
+                                            },
+                                            "href" : {
+                                                "type" : "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "defaultSslClientCertificate" : {
+                        "type" : "string"
+                    }
+                }
+            }
+
++ Response 200 (application/json)
+
+            {
+                "resource": {
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net",
+                            "rel": "self"
+                        },
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/datacenters",
+                            "rel": "datacenters"
+                        },
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/properties",
+                            "rel": "properties"
+                        },
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/geographic-maps",
+                            "rel": "geographic-maps"
+                        },
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/cidr-maps",
+                            "rel": "cidr-maps"
+                        },
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/resources",
+                            "rel": "resources"
+                        }
+                    ],
+                    "cidrMaps": [
+                        {
+                            "assignments": [
+                                {
+                                    "blocks": [
+                                        "1.3.5.9",
+                                        "1.2.3.0/24"
+                                    ],
+                                    "datacenterId": 3134,
+                                    "nickname": "Frostfangs and the Fist of First Men"
+                                },
+                                {
+                                    "blocks": [
+                                        "1.2.4.0/24"
+                                    ],
+                                    "datacenterId": 3133,
+                                    "nickname": "Winterfell"
+                                }
+                            ],
+                            "defaultDatacenter": {
+                                "datacenterId": 5400,
+                                "nickname": "All Other CIDR Blocks"
+                            },
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/cidr-maps/The%20North",
+                                    "rel": "self"
+                                }
+                            ],
+                            "name": "The North"
+                        }
+                    ],
+                    "datacenters": [
+                        {
+                            "city": "Doune",
+                            "cloneOf": 0,
+                            "continent": "EU",
+                            "country": "GB",
+                            "datacenterId": 3133,
+                            "defaultLoadObject": {
+                                "loadObject": null,
+                                "loadObjectPort": 0,
+                                "loadServers": null
+                            },
+                            "latitude": 56.185097,
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                                    "rel": "self"
+                                }
+                            ],
+                            "longitude": -4.050264,
+                            "nickname": "Winterfell",
+                            "stateOrProvince": "Perthshire",
+                            "virtual": true
+                        },
+                        {
+                            "city": "Snæfellsjökull",
+                            "cloneOf": 0,
+                            "continent": "EU",
+                            "country": "IS",
+                            "datacenterId": 3134,
+                            "defaultLoadObject": {
+                                "loadObject": null,
+                                "loadObjectPort": 0,
+                                "loadServers": null
+                            },
+                            "latitude": 64.808,
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3134",
+                                    "rel": "self"
+                                }
+                            ],
+                            "longitude": -23.776,
+                            "nickname": "Frostfangs",
+                            "stateOrProvince": null,
+                            "virtual": true
+                        },
+                        {
+                            "city": null,
+                            "cloneOf": 0,
+                            "continent": null,
+                            "country": null,
+                            "datacenterId": 5400,
+                            "defaultLoadObject": {
+                                "loadObject": null,
+                                "loadObjectPort": 0,
+                                "loadServers": null
+                            },
+                            "latitude": 0.0,
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/5400",
+                                    "rel": "self"
+                                }
+                            ],
+                            "longitude": 0.0,
+                            "nickname": "Default Datacenter",
+                            "stateOrProvince": null,
+                            "virtual": true
+                        }
+                    ],                    
+                    "defaultSslClientCertificate": null,
+                    "defaultSslClientPrivateKey": null,
+                    "defaultUnreachableThreshold": null,
+                    "emailNotificationList": [],
+                    "geographicMaps": [
+                        {
+                            "assignments": [
+                                {
+                                    "countries": [
+                                        "GB"
+                                    ],
+                                    "datacenterId": 3133,
+                                    "nickname": "UK users"
+                                }
+                            ],
+                            "defaultDatacenter": {
+                                "datacenterId": 5400,
+                                "nickname": "Default Mapping"
+                            },
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/geographic-maps/UK%20Delivery",
+                                    "rel": "self"
+                                }
+                            ],
+                            "name": "UK Delivery"
+                        }
+                    ],
+                    "lastModified": "2014-04-08T18:25:51.000+0000",
+                    "lastModifiedBy": "admin@example.com",
+                    "loadFeedback": true,
+                    "loadImbalancePercentage": 10.0,
+                    "minPingableRegionFraction": null,
+                    "modificationComments": "CIDRMap example",
+                    "name": "example.akadns.net",
+                    "pingInterval": null,
+                    "properties": [
+                        {
+                            "backupCName": null,
+                            "backupIp": null,
+                            "balanceByDownloadScore": false,
+                            "cname": null,
+                            "comments": null,
+                            "dynamicTTL": 300,
+                            "failbackDelay": 0,
+                            "failoverDelay": 0,
+                            "handoutMode": "normal",
+                            "healthMax": null,
+                            "healthMultiplier": null,
+                            "healthThreshold": null,
+                            "ipv6": false,
+                            "lastModified": "2014-04-08T18:25:52.000+0000",
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/properties/www",
+                                    "rel": "self"
+                                }
+                            ],
+                            "livenessTests": [
+                                {
+                                    "disableNonstandardPortWarning": false,
+                                    "hostHeader": "foo.example.com",
+                                    "httpError3xx": true,
+                                    "httpError4xx": true,
+                                    "httpError5xx": true,
+                                    "links": [],
+                                    "name": "health-check",
+                                    "requestString": null,
+                                    "responseString": null,
+                                    "sslClientCertificate": null,
+                                    "sslClientPrivateKey": null,
+                                    "testInterval": 60,
+                                    "testObject": "/status",
+                                    "testObjectPassword": null,
+                                    "testObjectPort": 80,
+                                    "testObjectProtocol": "HTTP",
+                                    "testObjectUsername": null,
+                                    "testTimeout": 25.0
+                                }
+                            ],
+                            "mapName": null,
+                            "maxUnreachablePenalty": null,
+                            "mxRecords": [],
+                            "name": "www",
+                            "scoreAggregationType": "mean",
+                            "staticTTL": 600,
+                            "stickinessBonusConstant": 0,
+                            "stickinessBonusPercentage": 0,
+                            "trafficTargets": [
+                                {
+                                    "datacenterId": 5400,
+                                    "enabled": false,
+                                    "handoutCName": null,
+                                    "name": null,
+                                    "servers": [],
+                                    "weight": 0.0
+                                },
+                                {
+                                    "datacenterId": 3134,
+                                    "enabled": true,
+                                    "handoutCName": null,
+                                    "name": null,
+                                    "servers": [
+                                        "1.2.3.5"
+                                    ],
+                                    "weight": 0.0
+                                },
+                                {
+                                    "datacenterId": 3133,
+                                    "enabled": true,
+                                    "handoutCName": null,
+                                    "name": null,
+                                    "servers": [
+                                        "1.2.3.4"
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "failover",
+                            "unreachableThreshold": null,
+                            "useComputedTargets": false
+                        },
+                        {
+                            "backupCName": null,
+                            "backupIp": null,
+                            "balanceByDownloadScore": false,
+                            "cname": null,
+                            "comments": null,
+                            "dynamicTTL": 300,
+                            "failbackDelay": 0,
+                            "failoverDelay": 0,
+                            "handoutMode": "normal",
+                            "healthMax": null,
+                            "healthMultiplier": null,
+                            "healthThreshold": null,
+                            "ipv6": true,
+                            "lastModified": "2014-04-08T18:25:52.000+0000",
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/properties/mail",
+                                    "rel": "self"
+                                }
+                            ],
+                            "livenessTests": [],
+                            "mapName": null,
+                            "maxUnreachablePenalty": null,
+                            "mxRecords": [],
+                            "name": "mail",
+                            "scoreAggregationType": "mean",
+                            "staticTTL": 600,
+                            "stickinessBonusConstant": 0,
+                            "stickinessBonusPercentage": 0,
+                            "trafficTargets": [
+                                {
+                                    "datacenterId": 5400,
+                                    "enabled": false,
+                                    "handoutCName": null,
+                                    "name": null,
+                                    "servers": [],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "datacenterId": 3134,
+                                    "enabled": true,
+                                    "handoutCName": null,
+                                    "name": null,
+                                    "servers": [
+                                        "2001:4878::5043:4078"
+                                    ],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "datacenterId": 3133,
+                                    "enabled": true,
+                                    "handoutCName": null,
+                                    "name": null,
+                                    "servers": [
+                                        "2001:4878::5043:4072",
+                                        "2001:4878::5043:4071"
+                                    ],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "weighted-round-robin",
+                            "unreachableThreshold": null,
+                            "useComputedTargets": false
+                        },
+                        {
+                            "backupCName": null,
+                            "backupIp": null,
+                            "balanceByDownloadScore": false,
+                            "cname": null,
+                            "comments": null,
+                            "dynamicTTL": 300,
+                            "failbackDelay": 0,
+                            "failoverDelay": 0,
+                            "handoutMode": "normal",
+                            "healthMax": null,
+                            "healthMultiplier": null,
+                            "healthThreshold": null,
+                            "ipv6": false,
+                            "lastModified": "2014-04-08T18:25:52.000+0000",
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/properties/supplies",
+                                    "rel": "self"
+                                }
+                            ],
+                            "livenessTests": [],
+                            "loadImbalancePercentage": null,
+                            "mapName": null,
+                            "maxUnreachablePenalty": null,
+                            "mxRecords": [],
+                            "name": "supplies",
+                            "scoreAggregationType": "mean",
+                            "staticTTL": 600,
+                            "stickinessBonusConstant": 0,
+                            "stickinessBonusPercentage": 0,
+                            "trafficTargets": [
+                                {
+                                    "datacenterId": 5400,
+                                    "enabled": true,
+                                    "handoutCName": "supplies.example.com",
+                                    "name": null,
+                                    "servers": [],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "datacenterId": 3134,
+                                    "enabled": true,
+                                    "handoutCName": "winter.supplies.example.com",
+                                    "name": null,
+                                    "servers": [],
+                                    "weight": 0.0
+                                },
+                                {
+                                    "datacenterId": 3133,
+                                    "enabled": true,
+                                    "handoutCName": "redcross.org",
+                                    "name": null,
+                                    "servers": [],
+                                    "weight": 0.0
+                                }
+                            ],
+                            "type": "failover",
+                            "unreachableThreshold": null,
+                            "useComputedTargets": false
+                        },
+                        {
+                            "backupCName": null,
+                            "backupIp": null,
+                            "balanceByDownloadScore": false,
+                            "cname": null,
+                            "comments": null,
+                            "dynamicTTL": 300,
+                            "failbackDelay": 0,
+                            "failoverDelay": 0,
+                            "handoutMode": "normal",
+                            "healthMax": null,
+                            "healthMultiplier": null,
+                            "healthThreshold": null,
+                            "ipv6": false,
+                            "lastModified": "2014-04-08T18:25:52.000+0000",
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/properties/shop",
+                                    "rel": "self"
+                                }
+                            ],
+                            "livenessTests": [],
+                            "loadImbalancePercentage": null,
+                            "mapName": "UK Delivery",
+                            "maxUnreachablePenalty": null,
+                            "mxRecords": [],
+                            "name": "shop",
+                            "scoreAggregationType": "mean",
+                            "staticTTL": 600,
+                            "stickinessBonusConstant": 0,
+                            "stickinessBonusPercentage": 0,
+                            "trafficTargets": [
+                                {
+                                    "datacenterId": 5400,
+                                    "enabled": true,
+                                    "handoutCName": "shop.example.com",
+                                    "name": null,
+                                    "servers": [],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "datacenterId": 3134,
+                                    "enabled": false,
+                                    "handoutCName": null,
+                                    "name": null,
+                                    "servers": [],
+                                    "weight": 1.0
+                                },
+                                {
+                                    "datacenterId": 3133,
+                                    "enabled": true,
+                                    "handoutCName": "uk.shop.example.com",
+                                    "name": null,
+                                    "servers": [],
+                                    "weight": 1.0
+                                }
+                            ],
+                            "type": "geographic",
+                            "unreachableThreshold": null,
+                            "useComputedTargets": false
+                        }
+                    ],
+                    "resources": [
+                        {
+                            "aggregationType": "latest",
+                            "constrainedProperty": "mail",
+                            "decayRate": null,
+                            "description": "CPU utilization",
+                            "hostHeader": null,
+                            "leaderString": null,
+                            "leastSquaresDecay": null,
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/resources/cpu",
+                                    "rel": "self"
+                                }
+                            ],
+                            "loadImbalancePercentage": null,
+                            "maxUMultiplicativeIncrement": null,
+                            "name": "cpu",
+                            "resourceInstances": [
+                                {
+                                    "datacenterId": 3134,
+                                    "loadObject": "/cpu",
+                                    "loadObjectPort": 80,
+                                    "loadServers": [
+                                        "1.2.3.8"
+                                    ],
+                                    "useDefaultLoadObject": false
+                                },
+                                {
+                                    "datacenterId": 3133,
+                                    "loadObject": "/cpu",
+                                    "loadObjectPort": 80,
+                                    "loadServers": [
+                                        "1.2.3.7"
+                                    ],
+                                    "useDefaultLoadObject": false
+                                },
+                                {
+                                    "datacenterId": 5400,
+                                    "loadObject": null,
+                                    "loadObjectPort": 0,
+                                    "loadServers": [],
+                                    "useDefaultLoadObject": false
+                                }
+                            ],
+                            "type": "XML load object via HTTP",
+                            "upperBound": 0
+                        },
+                        {
+                            "aggregationType": "latest",
+                            "constrainedProperty": "**",
+                            "decayRate": null,
+                            "description": "Supply levels of Arbor Gold",
+                            "hostHeader": null,
+                            "leaderString": null,
+                            "leastSquaresDecay": null,
+                            "links": [
+                                {
+                                    "href": "/config-gtm/v1/domains/example.akadns.net/resources/arbor-gold",
+                                    "rel": "self"
+                                }
+                            ],
+                            "loadImbalancePercentage": null,
+                            "maxUMultiplicativeIncrement": null,
+                            "name": "arbor-gold",
+                            "resourceInstances": [
+                                {
+                                    "datacenterId": 3134,
+                                    "loadObject": "/cups",
+                                    "loadObjectPort": 80,
+                                    "loadServers": [
+                                        "1.2.3.8"
+                                    ],
+                                    "useDefaultLoadObject": false
+                                },
+                                {
+                                    "datacenterId": 3133,
+                                    "loadObject": "/cups",
+                                    "loadObjectPort": 80,
+                                    "loadServers": [
+                                        "1.2.3.7"
+                                    ],
+                                    "useDefaultLoadObject": false
+                                },
+                                {
+                                    "datacenterId": 5400,
+                                    "loadObject": null,
+                                    "loadObjectPort": 0,
+                                    "loadServers": [],
+                                    "useDefaultLoadObject": false
+                                }
+                            ],
+                            "type": "Non-XML load object via HTTP",
+                            "upperBound": 0
+                        }
+                    ],
+                    "roundRobinPrefix": null,
+                    "servermonitorLivenessCount": null,
+                    "servermonitorLoadCount": null,
+                    "status": {
+                        "changeId": "5beb11ae-8908-4bfe-8459-e88efc4d2fdc",
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/status/current".
+                                "rel": "self"
+                            }
+                        ],
+                        "message": "Change Pending",
+                        "passingValidation": true,
+                        "propagationStatus": "PENDING",
+                        "propagationStatusDate": "2014-04-08T18:25:51.000+0000"
+                    },
+                    "type": "full"
+                },
+                "status": {
+                    "changeId": "5beb11ae-8908-4bfe-8459-e88efc4d2fdc",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current".
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-08T18:25:51.000+0000"
+                }
+             }
+        
+
+# Group Data Centers
+A data center or a region, is a group of servers that is a unit of load partitioning. Traffic Management balances
+load across data centers but not within data centers. Each property can be served from multiple customer data centers.
+For example, www might be in DC1 (SantaClara), DC2 (London) and DC3 (Tokyo), and foo in DC1 and DC3.
+
+## Datacenters Collection [/config-gtm/v1/domains/{domain}/datacenters]
+### Retrieve all Datacenters [GET]
+
++ Response 200 (application/json)
+
+        {
+            "items": [
+                {
+                    "city": "Doune",
+                    "cloneOf": 0,
+                    "continent": "EU",
+                    "country": "GB",
+                    "datacenterId": 3133,
+                    "defaultLoadObject": {
+                        "loadObject": null,
+                        "loadObjectPort": 0,
+                        "loadServers": null
+                    },
+                    "latitude": 56.185097,
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                            "rel": "self"
+                        }
+                    ],
+                    "longitude": -4.050264,
+                    "nickname": "Winterfell",
+                    "stateOrProvince": "Perthshire",
+                    "virtual": true
+                },
+                {
+                    "city": "Snæfellsjökull",
+                    "cloneOf": 0,
+                    "continent": "EU",
+                    "country": "IS",
+                    "datacenterId": 3134,
+                    "defaultLoadObject": {
+                        "loadObject": null,
+                        "loadObjectPort": 0,
+                        "loadServers": null
+                    },
+                    "latitude": 64.808,
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3134",
+                            "rel": "self"
+                        }
+                    ],
+                    "longitude": -23.776,
+                    "nickname": "Frostfangs",
+                    "stateOrProvince": null,
+                    "virtual": true
+                }
+            ]
+        }
+
+### Create a Datacenter [POST]
++ Request (application/json)
+    + Body
+
+             {
+                "city": "Doune",
+                "stateOrProvince": "Perthshire",
+                "cloneOf": 0,
+                "continent": "EU",
+                "country": "GB",
+                "defaultLoadObject": {
+                    "loadObject": null,
+                    "loadObjectPort": 0,
+                    "loadServers": null
+                },
+                "latitude": 56.185096,
+                "longitude": -4.050264,
+                "nickname": "Winterfell"
+            }
+
+    + Schema
+
+            {
+                "$schema" :  "http://json-schema.org/draft-03/schema#",
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string"
+                    },
+                    "cloneOf": {
+                        "type": "integer"
+                    },
+                    "continent": {
+                        "type": "string",
+                        "maxLength": 2,
+                        "enum": ["AF", "AS", "EU", "NA", "OC", "OT", "SA"]
+                    },
+                    "country": {
+                        "type": "string",
+                        "maxLength": 2
+                    },
+                    "defaultLoadObject": {
+                        "type": "object",
+                        "properties": {
+                            "loadObject": {
+                                "type": "string",
+                                "maxLength" : 256,
+                                "pattern" : "^(?!:).*$"
+                            },
+                            "loadObjectPort": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 65535
+                            },
+                            "loadServers": {
+                                "items": {
+                                    "type": "string",
+                                    "maxLength": 256
+                                },
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "latitude": {
+                        "type": "number"
+                    },
+                    "links": {
+                        "items": {
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "rel": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "type": "array"
+                    },
+                    "longitude": {
+                        "type": "number"
+                    },
+                    "nickname": {
+                        "type": "string"
+                    },
+                    "datacenterId": {
+                        "required": true,
+                        "type": "integer"
+                    },
+                    "stateOrProvince": {
+                        "type": "string"
+                    },
+                    "virtual": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            }
+
++ Response 201 (application/json)
+
+    + Headers
+
+            Location: /config-gtm/v1/domains/example.akadns.net/datacenters/3133
+
+    + Body
+
+            {
+                "resource": {
+                    "city": "Doune",
+                    "cloneOf": 0,
+                    "continent": "EU",
+                    "country": "GB",
+                    "datacenterId": 3133,
+                    "defaultLoadObject": {
+                        "loadObject": null,
+                        "loadObjectPort": 0,
+                        "loadServers": null
+                    },
+                    "latitude": 56.185097,
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                            "rel": "self"
+                        }
+                    ],
+                    "longitude": -4.050264,
+                    "nickname": "Winterfell",
+                    "stateOrProvince": "Perthshire",
+                    "virtual": true
+                },
+                "status": {
+                    "changeId": "f0c51967-d119-4665-9403-364a57ea5530",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+                }
+            }
+
+## Data Center [/config-gtm/v1/domains/{domain}/datacenters/{datacenterId}]
+A single Data Center object with all its details
+
++ Parameters
+    + domain (required, string, `example.akadns.net`) ... Name of Traffic Management domain.
+    + datacenterId (required, number, `1`) ... Numeric `id` of the Data Center.
+
+### Retrieve a Data Center [GET]
+
++ Response 200 (application/json)
+
+            {
+                "city": "Downpatrick",
+                "cloneOf": 0,
+                "continent": "EU",
+                "country": "GB",
+                "datacenterId": 3133,
+                "defaultLoadObject": {
+                    "loadObject": null,
+                    "loadObjectPort": 0,
+                    "loadServers": null
+                },
+                "latitude": 54.367,
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                        "rel": "self"
+                    }
+                ],
+                "longitude": -5.582,
+                "nickname": "Winterfell",
+                "stateOrProvince": null,
+                "virtual": true
+            }
+
+### Update a Data Center [PUT]
++ Request (application/json)
+    + Body
+
+            {
+                "city": "Downpatrick",
+                "cloneOf": 0,
+                "continent": "EU",
+                "country": "GB",
+                "datacenterId": 3133,
+                "defaultLoadObject": {
+                    "loadObject": null,
+                    "loadObjectPort": 0,
+                    "loadServers": null
+                },
+                "latitude": 54.367,
+                "longitude": -5.582,
+                "nickname": "Winterfell"
+            }
+
+    + Schema
+
+            {
+                "$schema" :  "http://json-schema.org/draft-03/schema#",
+                "type": "object",
+                "properties": {
+                    "city": {
+                        "type": "string"
+                    },
+                    "cloneOf": {
+                        "type": "integer"
+                    },
+                    "continent": {
+                        "type": "string",
+                        "maxLength": 2,
+                        "enum": ["AF", "AS", "EU", "NA", "OC", "OT", "SA"]
+                    },
+                    "country": {
+                        "type": "string",
+                        "maxLength": 2
+                    },
+                    "defaultLoadObject": {
+                        "type": "object",
+                        "properties": {
+                            "loadObject": {
+                                "type": "string",
+                                "maxLength" : 256,
+                                "pattern" : "^(?!:).*$"
+                            },
+                            "loadObjectPort": {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 65535
+                            },
+                            "loadServers": {
+                                "items": {
+                                    "type": "string",
+                                    "maxLength": 256
+                                },
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "latitude": {
+                        "type": "number"
+                    },
+                    "links": {
+                        "items": {
+                            "properties": {
+                                "href": {
+                                    "type": "string"
+                                },
+                                "rel": {
+                                    "type": "string"
+                                }
+                            },
+                            "type": "object"
+                        },
+                        "type": "array"
+                    },
+                    "longitude": {
+                        "type": "number"
+                    },
+                    "nickname": {
+                        "type": "string"
+                    },
+                    "datacenterId": {
+                        "required": true,
+                        "type": "integer"
+                    },
+                    "stateOrProvince": {
+                        "type": "string"
+                    },
+                    "virtual": {
+                        "type": "boolean"
+                    }
+                },
+                "additionalProperties": false
+            }
+
++ Response 200 (application/json)
+
+            {
+                "resource": {
+                    "city": "Downpatrick",
+                    "cloneOf": 0,
+                    "continent": "EU",
+                    "country": "GB",
+                    "datacenterId": 3133,
+                    "defaultLoadObject": {
+                        "loadObject": null,
+                        "loadObjectPort": 0,
+                        "loadServers": null
+                    },
+                    "latitude": 54.367,
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/datacenters/3133",
+                            "rel": "self"
+                        }
+                    ],
+                    "longitude": -5.582,
+                    "nickname": "Winterfell",
+                    "stateOrProvince": null,
+                    "virtual": true
+                },
+                "status": {
+                    "changeId": "bd69be9b-ff44-433d-bff8-ae00d270ea33",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+                }
+            }
+
+### Remove a Datacenter [DELETE]
++ Response 200 (application/json)
+
+            {
+                "resource": null,
+                "status": {
+                    "changeId": "66c7ff0b-4b9e-41cc-9fd0-34d4f75c2484",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-03T21:18:01.000+0000"
+                }
+            }
+
+# Group Properties
+Representation of GTM property, (e.g., `www`) which in DNS terms is a *subdomain*
+of the domain. Combined with it's domain (e.g., `example.akadns.net`), the [fully qualified domain name](http://en.wikipedia.org/wiki/Fully_qualified_domain_name)
+`www.example.akadns.net` is used for load balancing.
+
+## Properties Collection [/config-gtm/v1/domains/{domain}/properties]
+### Retrieve all Properties [GET]
+
++ Response 200 (application/json)
+
+            {
+                "items": [
+                    {
+                        "balanceByDownloadScore": false,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "ipv6": false,
+                        "lastModified": "2014-04-07T16:21:27.000+0000",
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/properties/www",
+                                "rel": "self"
+                            }
+                        ],
+                        "livenessTests": [
+                            {
+                                "disableNonstandardPortWarning": false,
+                                "hostHeader": "foo.example.com",
+                                "httpError3xx": true,
+                                "httpError4xx": true,
+                                "httpError5xx": true,
+                                "name": "health-check",
+                                "testInterval": 60,
+                                "testObject": "/status",
+                                "testObjectPort": 80,
+                                "testObjectProtocol": "HTTP",
+                                "testTimeout": 25.0
+                            }
+                        ],
+                        "mxRecords": [],
+                        "name": "www",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 3134,
+                                "enabled": true,
+                                "servers": [
+                                    "1.2.3.5"
+                                ],
+                                "weight": 0.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "servers": [
+                                    "1.2.3.4"
+                                ],
+                                "weight": 1.0
+                            }
+                        ],
+                        "type": "failover",
+                        "useComputedTargets": false
+                    },
+                    {
+                        "balanceByDownloadScore": false,
+                        "dynamicTTL": 300,
+                        "failbackDelay": 0,
+                        "failoverDelay": 0,
+                        "handoutMode": "normal",
+                        "ipv6": true,
+                        "lastModified": "2014-04-07T16:21:27.000+0000",
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/properties/mail",
+                                "rel": "self"
+                            }
+                        ],
+                        "livenessTests": [],
+                        "mxRecords": [],
+                        "name": "mail",
+                        "scoreAggregationType": "mean",
+                        "staticTTL": 600,
+                        "stickinessBonusConstant": 0,
+                        "stickinessBonusPercentage": 0,
+                        "trafficTargets": [
+                            {
+                                "datacenterId": 3134,
+                                "enabled": true,
+                                "servers": [
+                                    "2001:4878::5043:4078"
+                                ],
+                                "weight": 1.0
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "enabled": true,
+                                "servers": [
+                                    "2001:4878::5043:4072",
+                                    "2001:4878::5043:4071"
+                                ],
+                                "weight": 1.0
+                            }
+                        ],
+                        "type": "weighted-round-robin",
+                        "useComputedTargets": false
+                    }
+                ]
+            }
+
+## Property [/config-gtm/v1/domains/{domain}/properties/{propertyName}]
+A single Property object with all its details
+
++ Parameters
+    + domain (required, string, `example.akadns.net`) ... Name of Traffic Management domain.
+    + propertyName (required, string, `www`) ... Name of property to create or update.
+
+### Retrieve a Property [GET]
+
++ Response 200 (application/json)
+
+            {
+                "backupCName": null,
+                "backupIp": null,
+                "balanceByDownloadScore": false,
+                "cname": null,
+                "comments": null,
+                "dynamicTTL": 300,
+                "failbackDelay": 0,
+                "failoverDelay": 0,
+                "handoutMode": "normal",
+                "healthMax": null,
+                "healthMultiplier": null,
+                "healthThreshold": null,
+                "ipv6": false,
+                "lastModified": "2014-04-08T15:11:10.000+0000",
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/properties/www",
+                        "rel": "self"
+                    }
+                ],
+                "livenessTests": [
+                    {
+                        "disableNonstandardPortWarning": false,
+                        "hostHeader": "foo.example.com",
+                        "httpError3xx": true,
+                        "httpError4xx": true,
+                        "httpError5xx": true,
+                        "name": "health-check",
+                        "requestString": null,
+                        "responseString": null,
+                        "sslClientCertificate": null,
+                        "sslClientPrivateKey": null,
+                        "testInterval": 60,
+                        "testObject": "/status",
+                        "testObjectPassword": null,
+                        "testObjectPort": 80,
+                        "testObjectProtocol": "HTTP",
+                        "testObjectUsername": null,
+                        "testTimeout": 25.0
+                    }
+                ],
+                "loadImbalancePercentage": null,
+                "mapName": null,
+                "maxUnreachablePenalty": null,
+                "mxRecords": [],
+                "name": "www",
+                "scoreAggregationType": "mean",
+                "staticTTL": 600,
+                "stickinessBonusConstant": 0,
+                "stickinessBonusPercentage": 0,
+                "trafficTargets": [
+                    {
+                        "datacenterId": 3134,
+                        "enabled": true,
+                        "handoutCName": null,
+                        "name": null,
+                        "servers": [
+                            "1.2.3.5"
+                        ],
+                        "weight": 0.0
+                    },
+                    {
+                        "datacenterId": 3133,
+                        "enabled": true,
+                        "handoutCName": null,
+                        "name": null,
+                        "servers": [
+                            "1.2.3.4"
+                        ],
+                        "weight": 1.0
+                    }
+                ],
+                "type": "failover",
+                "unreachableThreshold": null,
+                "useComputedTargets": false
+            }
+
+### Create or update a Property [PUT]
++ Request (application/json)
+
+    + Body
+
+            {
+                "balanceByDownloadScore": false,
+                "failbackDelay": 0,
+                "failoverDelay": 0,
+                "handoutMode": "normal",
+                "healthMax": null,
+                "healthMultiplier": null,
+                "healthThreshold": null,
+                "ipv6": false,
+                "livenessTests": [
+                    {
+                        "disableNonstandardPortWarning": false,
+                        "hostHeader": "foo.example.com",
+                        "httpError3xx": true,
+                        "httpError4xx": true,
+                        "httpError5xx": true,
+                        "name": "health-check",
+                        "requestString": null,
+                        "responseString": null,
+                        "sslClientCertificate": null,
+                        "sslClientPrivateKey": null,
+                        "testInterval": 60,
+                        "testObject": "/status",
+                        "testObjectPassword": null,
+                        "testObjectPort": 80,
+                        "testObjectProtocol": "HTTP",
+                        "testObjectUsername": null,
+                        "testTimeout": 25.0
+                    }
+                ],
+                "mxRecords": [],
+                "name": "origin",
+                "scoreAggregationType": "mean",
+                "staticTTL": 600,
+                "stickinessBonusConstant": 0,
+                "stickinessBonusPercentage": 0,
+                "trafficTargets": [
+                    {
+                        "datacenterId": 3134,
+                        "enabled": true,
+                        "servers": [
+                            "1.2.3.5"
+                        ],
+                        "weight": 50.0
+                    },
+                    {
+                        "datacenterId": 3133,
+                        "enabled": true,
+                        "servers": [
+                            "1.2.3.4"
+                        ],
+                        "weight": 50.0
+                    }
+                ],
+                "type": "weighted-round-robin",
+                "useComputedTargets": false
+            }
+
+    + Schema
+
+            {
+                "$schema" :  "http://json-schema.org/draft-03/schema#",
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" : {
+                    "ipv6" : {
+                        "type" : "boolean"
+                    },
+                    "scoreAggregationType" : {
+                        "type" : "string"
+                    },
+                    "stickinessBonusPercentage" : {
+                        "type" : "integer",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "stickinessBonusConstant" : {
+                        "type" : "integer",
+                        "minimum": 0,
+                        "maximum": 30000
+                    },
+                    "trafficTargets" : {
+                        "type" : "array",
+                        "required": true,
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer"
+                                },
+                                "enabled" : {
+                                    "type" : "boolean"
+                                },
+                                "weight" : {
+                                    "minimum": 0,
+                                    "type" : "number"
+                                },
+                                "servers" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "string"
+                                    }
+                                },
+                                "name" : {
+                                    "type" : "string"
+                                },
+                                "handoutCName" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "type" : {
+                        "type" : "string",
+                        "required" : true,
+                        "enum" : ["failover", "geographic", "cidrmapping", "weighted-round-robin", "weighted-round-robin-load-feedback", "qtr", "performance"]
+                    },
+                    "healthThreshold" : {
+                        "type" : "number"
+                    },
+                    "useComputedTargets" : {
+                        "type" : "boolean"
+                    },
+                    "backupIp" : {
+                        "type" : "string"
+                    },
+                    "balanceByDownloadScore" : {
+                        "type" : "boolean"
+                    },
+                    "propertyId" : {
+                        "type" : "integer"
+                    },
+                    "mxRecords" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "exchange" : {
+                                    "type" : "string"
+                                },
+                                "preference" : {
+                                    "type" : "number"
+                                }
+                            }
+                        }
+                    },
+                    "staticTTL" : {
+                        "type" : "integer",
+                        "minimum" : 30,
+                        "maximum" : 3600
+                    },
+                    "lastModified" : {
+                        "type" : "integer",
+                        "format" : "UTC_MILLISEC"
+                    },
+                    "unreachableThreshold" : {
+                        "type" : "number",
+                        "minimum" : 0,
+                        "maximum" : 1
+                    },
+                    "name" : {
+                        "type" : "string",
+                        "required" : true,
+                        "maxLength" : 256,
+                        "pattern": "^[\\w-]+(\\.[\\w-]+)*$"
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "healthMultiplier" : {
+                        "type" : "number"
+                    },
+                    "dynamicTTL" : {
+                        "type" : "integer",
+                        "minimum": 30,
+                        "maximum" : 3600
+                    },
+                    "maxUnreachablePenalty" : {
+                        "type" : "number"
+                    },
+                    "mapName" : {
+                        "type" : "string"
+                    },
+                    "handoutMode" : {
+                        "type" : "string",
+                        "enum":  ["normal","persistent","one-ip","one-ip-hashed", "all-live-ips"]
+                    },
+                    "failoverDelay" : {
+                        "type" : "integer",
+                        "minimum": 0
+                    },
+                    "backupCName" : {
+                        "type" : "string"
+                    },
+                    "livenessTests" : {
+                        "type" : "array",
+                        "required" : true,
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "name" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "minLength" : 1,
+                                    "maxLength" : 128
+                                },
+                                "testInterval" : {
+                                    "type" : "integer",
+                                    "required" : true,
+                                    "minimum" : 10
+                                },
+                                "testObject" : {
+                                    "type" : "string",
+                                    "maxLength": 256
+                                },
+                                "links" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "object",
+                                        "properties" : {
+                                            "rel" : {
+                                                "type" : "string"
+                                            },
+                                            "href" : {
+                                                "type" : "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "requestString" : {
+                                    "type" : "string",
+                                    "maxLength": 512
+                                },
+                                "httpError4xx" : {
+                                    "type" : "boolean"
+                                },
+                                "responseString" : {
+                                    "type" : "string"
+                                },
+                                "testObjectProtocol" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "enum": ["HTTP", "HTTPS", "FTP", "POP", "POPS", "SMTP", "SMTPS", "TCP", "TCPS"]
+                                },
+                                "testObjectPassword" : {
+                                    "type" : "string",
+                                    "maxLength": 128
+                                },
+                                "sslClientPrivateKey" : {
+                                    "type" : "string"
+                                },
+                                "testObjectPort" : {
+                                    "type" : "integer",
+                                    "minimum": 1,
+                                    "maximum": 65535
+                                },
+                                "httpError3xx" : {
+                                    "type" : "boolean"
+                                },
+                                "httpError5xx" : {
+                                    "type" : "boolean"
+                                },
+                                "disableNonstandardPortWarning" : {
+                                    "type" : "boolean"
+                                },
+                                "hostHeader" : {
+                                    "type" : "string",
+                                    "maxLength": 256
+                                },
+                                "sslClientCertificate" : {
+                                    "type" : "string"
+                                },
+                                "testObjectUsername" : {
+                                    "type" : "string",
+                                    "maxLength": 512
+                                },
+                                "testTimeout" : {
+                                    "type" : "number",
+                                    "required" : true,
+                                    "minimum" : 0.001
+                                }
+                            }
+                        }
+                    },
+                    "failbackDelay" : {
+                        "type" : "integer",
+                        "minimum": 0
+                    },
+                    "loadImbalancePercentage" : {
+                        "type" : "number",
+                        "minimum": 0,
+                        "maximum": 1000000
+                    },
+                    "healthMax" : {
+                        "type" : "number"
+                    },
+                    "comments" : {
+                        "type" : "string",
+                        "maxLength" : 1000
+                    },
+                    "cname" : {
+                        "type" : "string"
+                    }
+                }
+            }
+
++ Response 201 (application/json)
+
+            {
+                "resource": {
+                    "backupCName": null,
+                    "backupIp": null,
+                    "balanceByDownloadScore": false,
+                    "cname": null,
+                    "comments": null,
+                    "dynamicTTL": 300,
+                    "failbackDelay": 0,
+                    "failoverDelay": 0,
+                    "handoutMode": "normal",
+                    "healthMax": null,
+                    "healthMultiplier": null,
+                    "healthThreshold": null,
+                    "ipv6": false,
+                    "lastModified": null,
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/properties/origin",
+                            "rel": "self"
+                        }
+                    ],
+                    "livenessTests": [
+                        {
+                            "disableNonstandardPortWarning": false,
+                            "hostHeader": "foo.example.com",
+                            "httpError3xx": true,
+                            "httpError4xx": true,
+                            "httpError5xx": true,
+                            "name": "health-check",
+                            "requestString": null,
+                            "responseString": null,
+                            "sslClientCertificate": null,
+                            "sslClientPrivateKey": null,
+                            "testInterval": 60,
+                            "testObject": "/status",
+                            "testObjectPassword": null,
+                            "testObjectPort": 80,
+                            "testObjectProtocol": "HTTP",
+                            "testObjectUsername": null,
+                            "testTimeout": 25.0
+                        }
+                    ],
+                    "loadImbalancePercentage": null,
+                    "mapName": null,
+                    "maxUnreachablePenalty": null,
+                    "mxRecords": [],
+                    "name": "origin",
+                    "scoreAggregationType": "mean",
+                    "staticTTL": 600,
+                    "stickinessBonusConstant": 0,
+                    "stickinessBonusPercentage": 0,
+                    "trafficTargets": [
+                        {
+                            "datacenterId": 3134,
+                            "enabled": true,
+                            "handoutCName": null,
+                            "name": null,
+                            "servers": [
+                                "1.2.3.5"
+                            ],
+                            "weight": 50.0
+                        },
+                        {
+                            "datacenterId": 3133,
+                            "enabled": true,
+                            "handoutCName": null,
+                            "name": null,
+                            "servers": [
+                                "1.2.3.4"
+                            ],
+                            "weight": 50.0
+                        }
+                    ],
+                    "type": "weighted-round-robin",
+                    "unreachableThreshold": null,
+                    "useComputedTargets": false
+                },
+                "status": {
+                    "changeId": "eee0c3b4-0e45-4f4b-822c-7dbc60764d18",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+                }
+            }
+
+### Remove a Property [DELETE]
++ Response 200 (application/json)
+
+            {
+                "resource": null,
+                "status": {
+                    "changeId": "426e9ea3-c968-47df-a41b-43a993c6f873",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-08T12:52:46.000+0000"
+                }
+            }
+
+
+# Group Resources
+An abstract entity that governs the properties within a data center and has the ability to constrain
+the load on the properties that it governs. Think of a resource as something that can impose a capacity
+constraint on the load associated with one or more properties in a data center. The goal of resources is
+to encapsulate the architecture and topology of the network in a data center.
+
+For example, each property normally has an associated resource that represents the capacity of the
+servers for that property. In addition, there might be a resource that constrains the aggregate
+bandwidth available to all properties in a data center.
+
+## Resources Collection [/config-gtm/v1/domains/{domain}/resources]
+### Retrieve all Resources [GET]
+
++ Response 200 (application/json)
+
+            {
+                "items": [
+                    {
+                        "aggregationType": "latest",
+                        "constrainedProperty": "**",
+                        "decayRate": null,
+                        "description": "Supply levels of Arbor Gold",
+                        "hostHeader": null,
+                        "leaderString": null,
+                        "leastSquaresDecay": null,
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/resources/arbor-gold",
+                                "rel": "self"
+                            }
+                        ],
+                        "loadImbalancePercentage": null,
+                        "maxUMultiplicativeIncrement": null,
+                        "name": "arbor-gold",
+                        "resourceInstances": [
+                            {
+                                "datacenterId": 3134,
+                                "loadObject": "/cups",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.8"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "loadObject": "/cups",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.7"
+                                ],
+                                "useDefaultLoadObject": false
+                            }
+                        ],
+                        "type": "Non-XML load object via HTTP",
+                        "upperBound": 0
+                    },
+                    {
+                        "aggregationType": "latest",
+                        "constrainedProperty": "mail",
+                        "decayRate": null,
+                        "description": "CPU utilization",
+                        "hostHeader": null,
+                        "leaderString": null,
+                        "leastSquaresDecay": null,
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/resources/cpu",
+                                "rel": "self"
+                            }
+                        ],
+                        "loadImbalancePercentage": null,
+                        "maxUMultiplicativeIncrement": null,
+                        "name": "cpu",
+                        "resourceInstances": [
+                            {
+                                "datacenterId": 3134,
+                                "loadObject": "/cpu",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.8"
+                                ],
+                                "useDefaultLoadObject": false
+                            },
+                            {
+                                "datacenterId": 3133,
+                                "loadObject": "/cpu",
+                                "loadObjectPort": 80,
+                                "loadServers": [
+                                    "1.2.3.7"
+                                ],
+                                "useDefaultLoadObject": false
+                            }
+                        ],
+                        "type": "XML load object via HTTP",
+                        "upperBound": 0
+                    }
+                ]
+            }
+
+
+## Resource [/config-gtm/v1/domains/{domain}/resources/{resourceName}]
+A single Resource object with all its details
+
++ Parameters
+    + domain (required, string, `example.akadns.net`) ... Name of Traffic Management domain.
+    + resourceName (required, string, `cpu`) ... Name of Resource to create or update.
+
+### Retrieve an individual Resource [GET]
+
++ Response 200 (application/json)
+
+            {
+                "aggregationType": "latest",
+                "constrainedProperty": "**",
+                "decayRate": null,
+                "description": "Supply levels of Arbor Gold",
+                "hostHeader": null,
+                "leaderString": null,
+                "leastSquaresDecay": null,
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/resources/arbor-gold",
+                        "rel": "self"
+                    }
+                ],
+                "loadImbalancePercentage": null,
+                "maxUMultiplicativeIncrement": null,
+                "name": "arbor-gold",
+                "resourceInstances": [
+                    {
+                        "datacenterId": 3134,
+                        "loadObject": "/cups",
+                        "loadObjectPort": 80,
+                        "loadServers": [
+                            "1.2.3.8"
+                        ],
+                        "useDefaultLoadObject": false
+                    },
+                    {
+                        "datacenterId": 3133,
+                        "loadObject": "/cups",
+                        "loadObjectPort": 80,
+                        "loadServers": [
+                            "1.2.3.7"
+                        ],
+                        "useDefaultLoadObject": false
+                    }
+                ],
+                "type": "Non-XML load object via HTTP",
+                "upperBound": 0
+            }
+
+### Create or update a Resource [PUT]
++ Request (application/json)
+
+    + Body
+
+            {
+                "aggregationType": "latest",
+                "constrainedProperty": "mail",
+                "decayRate": null,
+                "description": "Disk utilization",
+                "hostHeader": null,
+                "leaderString": null,
+                "leastSquaresDecay": null,
+                "loadImbalancePercentage": null,
+                "maxUMultiplicativeIncrement": null,
+                "name": "disk",
+                "resourceInstances": [
+                    {
+                        "datacenterId": 3134,
+                        "loadObject": "/disk",
+                        "loadObjectPort": 80,
+                        "loadServers": [
+                            "1.2.3.9"
+                        ],
+                        "useDefaultLoadObject": false
+                    },
+                    {
+                        "datacenterId": 3133,
+                        "loadObject": "/disk",
+                        "loadObjectPort": 80,
+                        "loadServers": [
+                            "1.2.3.10"
+                        ],
+                        "useDefaultLoadObject": false
+                    }
+                ],
+                "type": "XML load object via HTTP",
+                "upperBound": 0
+            }
+
+
+    + Schema
+
+            {
+                "$schema" :  "http://json-schema.org/draft-03/schema#",
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" : {
+                    "leastSquaresDecay" : {
+                        "type" : "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "hostHeader" : {
+                        "type" : "string",
+                        "maxLength" : 255
+                    },
+                    "description" : {
+                        "type" : "string",
+                        "maxLength" : 256
+                    },
+                    "leaderString" : {
+                        "type" : "string",
+                        "maxLength" : 256
+                    },
+                    "constrainedProperty" : {
+                        "type" : "string",
+                        "maxLength": 256
+                    },
+                    "resourceInstances" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "useDefaultLoadObject" : {
+                                    "type" : "boolean"
+                                },
+                                "loadServers" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "string"
+                                    }
+                                },
+                                "loadObject" : {
+                                    "type" : "string",
+                                    "maxLength" : 256,
+                                    "pattern" : "^(?!:).*$"
+                                },
+                                "loadObjectPort" : {
+                                    "type" : "integer",
+                                    "minimum": 0,
+                                    "maximum": 65535
+                                }
+                            }
+                        }
+                    },
+                    "aggregationType" : {
+                        "type" : "string",
+                        "maxLength": 15,
+                        "required" : true,
+                        "enum" :  ["sum", "median", "latest"]
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    },
+                    "loadImbalancePercentage" : {
+                        "type" : "number",
+                        "minimum": 0,
+                        "maximum": 1000000
+                    },
+                    "type" : {
+                        "type" : "string",
+                        "required" : true,
+                        "enum" :  ["XML load object via HTTP", "XML load object via HTTPS", "Non-XML load object via HTTP", "Non-XML load object via HTTPS", "Download score"]
+                    },
+                    "upperBound" : {
+                        "type" : "integer"
+                    },
+                    "name" : {
+                        "type" : "string",
+                        "required": true,
+                        "maxLength": 150,
+                        "pattern" : "^((?!\\s).)*$"
+                    },
+                    "maxUMultiplicativeIncrement" : {
+                        "type" : "number",
+                        "minimum" : 1.0
+                    },
+                    "decayRate" : {
+                        "type" : "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            }
+
++ Response 200 (application/json)
+
+            {
+                "resource": {
+                    "aggregationType": "latest",
+                    "constrainedProperty": "mail",
+                    "decayRate": null,
+                    "description": "Disk utilization",
+                    "hostHeader": null,
+                    "leaderString": null,
+                    "leastSquaresDecay": null,
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/resources/disk",
+                            "rel": "self"
+                        }
+                    ],
+                    "loadImbalancePercentage": null,
+                    "maxUMultiplicativeIncrement": null,
+                    "name": "disk",
+                    "resourceInstances": [
+                        {
+                            "datacenterId": 3134,
+                            "loadObject": "/disk",
+                            "loadObjectPort": 80,
+                            "loadServers": [
+                                "1.2.3.9"
+                            ],
+                            "useDefaultLoadObject": false
+                        },
+                        {
+                            "datacenterId": 3133,
+                            "loadObject": "/disk",
+                            "loadObjectPort": 80,
+                            "loadServers": [
+                                "1.2.3.10"
+                            ],
+                            "useDefaultLoadObject": false
+                        }
+                    ],
+                    "type": "XML load object via HTTP",
+                    "upperBound": 0
+                },
+                "status": {
+                    "changeId": "79255c00-f6b6-48ea-9d67-c6d02a8742c9",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+                }
+            }
+
+
+### Remove a Resource [DELETE]
++ Response 200 (application/json)
+
+            {
+                "resource": null,
+                "status": {
+                    "changeId": "a97bedfe-c997-4634-84a4-cdb31529fb4c",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-08T13:44:53.000+0000"
+                }
+            }
+
+
+# Group Geographic Maps
+Geographic mapping allows you to configure a property that returns a CNAME based on the requester’s country.
+You can reuse maps for multiple properties or create new ones. The minimum number of definitions per-map is two so that:
+
+1. At least one maps one or more countries to a data center;
+2. One routes all other traffic.
+
+## Geographic Maps Collection [/config-gtm/v1/domains/{domain}/geographic-maps]
+### Retrieve all Geographic Maps [GET]
+
++ Response 200 (application/json)
+
+            {
+                "items": [
+                    {
+                        "assignments": [
+                            {
+                                "countries": [
+                                    "GB"
+                                ],
+                                "datacenterId": 3133,
+                                "nickname": "UK users"
+                            }
+                        ],
+                        "defaultDatacenter": {
+                            "datacenterId": 5400,
+                            "nickname": "Default Mapping"
+                        },
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/geographic-maps/UK%20Delivery",
+                                "rel": "self"
+                            }
+                        ],
+                        "name": "UK Delivery"
+                    }
+                ]
+            }
+
+
+## Geographic Map [/config-gtm/v1/domains/{domain}/geographic-maps/{mapName}]
+A single Geographic Map object with all its details
+
++ Parameters
+    + domain (required, string, `example.akadns.net`) ... Name of Traffic Management domain.
+    + mapName (required, string, `Software-rollout`) ... Name of Geographic Map to create or update.
+
+### Retrieve an individual Geographic Map [GET]
++ Response 200 (application/json)
+
+            {
+                "assignments": [
+                    {
+                        "countries": [
+                            "GB"
+                        ],
+                        "datacenterId": 3133,
+                        "nickname": "UK users"
+                    }
+                ],
+                "defaultDatacenter": {
+                    "datacenterId": 5400,
+                    "nickname": "Default Mapping"
+                },
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/geographic-maps/UK%20Delivery",
+                        "rel": "self"
+                    }
+                ],
+                "name": "UK Delivery"
+            }
+
+### Create or update a Geographic Map [PUT]
++ Request (application/json)
+
+    + Body
+
+            {
+                "assignments": [
+                    {
+                        "countries": [
+                            "GB"
+                        ],
+                        "datacenterId": 3133,
+                        "nickname": "UK users"
+                    }
+                ],
+                "defaultDatacenter": {
+                    "datacenterId": 5400,
+                    "nickname": "Default Mapping"
+                }
+                "name": "UK Delivery"
+            }
+
+    + Schema
+
+            {
+                "$schema" :  "http://json-schema.org/draft-03/schema#",
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" : {
+                    "name" : {
+                        "type" : "string",
+                        "required": true,
+                        "minLength": 1,
+                        "maxLength": 128
+                    },
+                    "defaultDatacenter" : {
+                        "type" : "object",
+                        "additionalProperties": false,
+                        "required": true,
+                        "properties" : {
+                            "datacenterId" : {
+                                "type" : "integer",
+                                "required": true
+                            },
+                            "nickname" : {
+                                "type" : "string",
+                                "minLength": 1,
+                                "maxLength": 128
+            
+                            }
+                        }
+                    },
+                    "assignments" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "nickname" : {
+                                    "type" : "string",
+                                    "required": true,
+                                    "minLength": 1,
+                                    "maxLength": 128
+            
+                                },
+                                "countries" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "string",
+                                        "minLength": 1,
+                                        "maxLength": 10
+            
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
++ Response 200 (application/json)
+
+            {
+                "resource": {
+                    "assignments": [
+                        {
+                            "countries": [
+                                "GB"
+                            ],
+                            "datacenterId": 3133,
+                            "nickname": "UK users"
+                        }
+                    ],
+                    "defaultDatacenter": {
+                        "datacenterId": 5400,
+                        "nickname": "Default Mapping"
+                    },
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/geographic-maps/UK%20Delivery",
+                            "rel": "self"
+                        }
+                    ],
+                    "name": "UK Delivery"
+                },
+                "status": {
+                    "changeId": "f2977f97-565b-46af-abfb-1da7e3e8c54b",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+                }
+            }
+
+
+### Remove a Geographic Map [DELETE]
++ Response 200 (application/json)
+
+            {
+                "resource": null,
+                "status": {
+                    "changeId": "a97bedfe-c997-4634-84a4-cdb31529fb4c",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-08T13:44:53.000+0000"
+                }
+            }
+
+
+# Group CIDR Maps
+CIDR mapping allows you to configure a property that returns a CNAME based on the requester’s nameserver's source (v4) IP address.
+You can reuse maps for multiple properties or create new ones. The minimum number of definitions per-map is two so that:
+
+1. At least one maps one or more CIDR blocks to a data center;
+2. One routes all other traffic.
+
+## CIDR Maps Collection [/config-gtm/v1/domains/{domain}/cidr-maps]
+### Retrieve all CIDR Maps [GET]
+
++ Response 200 (application/json)
+
+            {
+                "items": [
+                    {
+                        "assignments": [
+                            {
+                                "blocks": [
+                                    "1.2.3.0/24"
+                                ],
+                                "datacenterId": 3134,
+                                "nickname": "Frostfangs and the Fist of First Men"
+                            },
+                            {
+                                "blocks": [
+                                    "1.2.4.0/24"
+                                ],
+                                "datacenterId": 3133,
+                                "nickname": "Winterfell"
+                            }
+                        ],
+                        "defaultDatacenter": {
+                            "datacenterId": 5400,
+                            "nickname": "All Other CIDR Blocks"
+                        },
+                        "links": [
+                            {
+                                "href": "/config-gtm/v1/domains/example.akadns.net/cidr-maps/The%20North",
+                                "rel": "self"
+                            }
+                        ],
+                        "name": "The North"
+                    }
+                ]
+            }
+
+## Resource [/config-gtm/v1/domains/{domain}/cidr-maps/{mapName}]
+A single CIDRMap object with all its details
+
++ Parameters
+    + domain (required, string, `example.akadns.net`) ... Name of Traffic Management domain.
+    + mapName (required, string, `Software-rollout`) ... Name of CIDR Map to create or update.
+
+### Retrieve an individual CIDR Map [GET]
++ Response 200 (application/json)
+
+            {
+                "assignments": [
+                    {
+                        "blocks": [
+                            "1.2.3.0/24"
+                        ],
+                        "datacenterId": 3134,
+                        "nickname": "Frostfangs and the Fist of First Men"
+                    },
+                    {
+                        "blocks": [
+                            "1.2.4.0/24"
+                        ],
+                        "datacenterId": 3133,
+                        "nickname": "Winterfell"
+                    }
+                ],
+                "defaultDatacenter": {
+                    "datacenterId": 5400,
+                    "nickname": "All Other CIDR Blocks"
+                },
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/cidr-maps/The%20North",
+                        "rel": "self"
+                    }
+                ],
+                "name": "The North"
+            }
+
+
+### Create or update a CIDR Map [PUT]
++ Request (application/json)
+
+    + Body
+
+            {
+                "assignments": [
+                    {
+                        "blocks": [
+                            "1.3.5.9",
+                            "1.2.3.0/24"
+                        ],
+                        "datacenterId": 3134,
+                        "nickname": "Frostfangs and the Fist of First Men"
+                    },
+                    {
+                        "blocks": [
+                            "1.2.4.0/24"
+                        ],
+                        "datacenterId": 3133,
+                        "nickname": "Winterfell"
+                    }
+                ],
+                "defaultDatacenter": {
+                    "datacenterId": 5400,
+                    "nickname": "All Other CIDR Blocks"
+                }
+                "name": "The North"
+            }
+
+    + Schema
+
+            {
+                "$schema" :  "http://json-schema.org/draft-03/schema#",
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" :     {
+                    "name" : {
+                        "type" : "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "assignments" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "nickname" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "minLength": 1,
+                                    "maxLength": 256
+                                },
+                                "blocks" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "string",
+                                        "minLength": 1,
+                                        "maxLength": 255
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "defaultDatacenter" : {
+                        "type" : "object",
+                        "additionalProperties": false,
+                        "required": true,
+                        "properties" : {
+                            "datacenterId" : {
+                                "type" : "integer",
+                                "required": true
+                            },
+                            "nickname" : {
+                                "type" : "string",
+                                "minLength": 1,
+                                "maxLength": 128
+            
+                            }
+                        }
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
++ Response 200 (application/json)
+
+            {
+                "resource": {
+                    "assignments": [
+                        {
+                            "blocks": [
+                                "1.3.5.9",
+                                "1.2.3.0/24"
+                            ],
+                            "datacenterId": 3134,
+                            "nickname": "Frostfangs and the Fist of First Men"
+                        },
+                        {
+                            "blocks": [
+                                "1.2.4.0/24"
+                            ],
+                            "datacenterId": 3133,
+                            "nickname": "Winterfell"
+                        }
+                    ],
+                    "defaultDatacenter": {
+                        "datacenterId": 5400,
+                        "nickname": "All Other CIDR Blocks"
+                    },
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/cidr-maps/The%2520North",
+                            "rel": "self"
+                        }
+                    ],
+                    "name": "The North"
+                },
+                "status": {
+                    "changeId": "93a48b86-4fc3-4a5f-9ca2-036835034cc6",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+                }
+            }
+
+### Remove a CIDR Map [DELETE]
++ Response 200 (application/json)
+
+            {
+                "resource": null,
+                "status": {
+                    "changeId": "5beb11ae-8908-4bfe-8459-e88efc4d2fdc",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-08T18:25:51.000+0000"
+                }
+            }
+
+# Group Autonomous System Maps
+Autonomous system (AS) mapping allows you to configure a property that returns a CNAME based on the AS of requester’s nameserver's source IP address.
+You can reuse maps for multiple properties or create new ones. The minimum number of definitions per-map is two so that:
+
+1. At least one maps one or more AS numbers to a data center;
+2. One routes all other traffic.
+
+**NOTE:** Requires media type `application/vnd.config-gtm.v1.1+json`
+
+## Resource [/config-gtm/v1/domains/{domain}/as-maps/{mapName}]
+A single Autonomous System (AS) Map object with all its details.  
+
++ Parameters
+    + domain (required, string, `example.akadns.net`) ... Name of Traffic Management domain.
+    + mapName (required, string, `Software-rollout`) ... Name of AS Map to create, update or delete.
+    
+
+### Retrieve an individual AS Map [GET]
++ Response 200 (application/vnd.config-gtm.v1.1+json)
+
+            {
+                "assignments": [
+                    {
+                        "asNumbers": [
+                            12222, 16702, 17334
+                        ],
+                        "datacenterId": 3134,
+                        "nickname": "Frostfangs and the Fist of First Men"
+                    },
+                    {
+                        "asNumbers": [
+                            16625
+                        ],
+                        "datacenterId": 3133,
+                        "nickname": "Winterfell"
+                    }
+                ],
+                "defaultDatacenter": {
+                    "datacenterId": 5400,
+                    "nickname": "All Other AS numbers"
+                },
+                "links": [
+                    {
+                        "href": "/config-gtm/v1/domains/example.akadns.net/as-maps/The%20North",
+                        "rel": "self"
+                    }
+                ],
+                "name": "The North"
+            }
+
+
+### Create or update an AS Map [PUT]
++ Request (application/vnd.config-gtm.v1.1+json)
+
+    + Body
+
+            {
+                "assignments": [
+                    {
+                        "asNumbers": [
+                              16625
+                        ],
+                        "datacenterId": 3134,
+                        "nickname": "Frostfangs and the Fist of First Men"
+                    },
+                    {
+                        "asNumbers": [
+                            12222, 16702, 17334
+                        ],
+                        "datacenterId": 3133,
+                        "nickname": "Winterfell"
+                    }
+                ],
+                "defaultDatacenter": {
+                    "datacenterId": 5400,
+                    "nickname": "All Other AS Numbers"
+                }
+                "name": "The North"
+            }
+
+    + Schema
+
+            {
+                "$schema" :  "http://json-schema.org/draft-03/schema#",
+                "type" : "object",
+                "additionalProperties": false,
+                "properties" :     {
+                    "name" : {
+                        "type" : "string",
+                        "minLength": 1,
+                        "maxLength": 255
+                    },
+                    "assignments" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "additionalProperties": false,
+                            "properties" : {
+                                "datacenterId" : {
+                                    "type" : "integer",
+                                    "required": true
+                                },
+                                "nickname" : {
+                                    "type" : "string",
+                                    "required" : true,
+                                    "minLength": 1,
+                                    "maxLength": 256
+                                },
+                                "asNumbers" : {
+                                    "type" : "array",
+                                    "items" : {
+                                        "type" : "integer",
+                                        "minimum": 1,
+                                        "maximum": 4294967295
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "defaultDatacenter" : {
+                        "type" : "object",
+                        "additionalProperties": false,
+                        "required": true,
+                        "properties" : {
+                            "datacenterId" : {
+                                "type" : "integer",
+                                "required": true
+                            },
+                            "nickname" : {
+                                "type" : "string",
+                                "minLength": 1,
+                                "maxLength": 128
+
+                            }
+                        }
+                    },
+                    "links" : {
+                        "type" : "array",
+                        "items" : {
+                            "type" : "object",
+                            "properties" : {
+                                "rel" : {
+                                    "type" : "string"
+                                },
+                                "href" : {
+                                    "type" : "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
++ Response 200 (application/vnd.config-gtm.v1.1+json)
+
+            {
+                "resource": {
+                    "assignments": [
+                        {
+                            "asNumbers": [
+                                16625
+                            ],
+                            "datacenterId": 3134,
+                            "nickname": "Frostfangs and the Fist of First Men"
+                        },
+                        {
+                            "asNumbers": [
+                                12222, 16702, 17334
+                            ],
+                            "datacenterId": 3133,
+                            "nickname": "Winterfell"
+                        }
+                    ],
+                    "defaultDatacenter": {
+                        "datacenterId": 5400,
+                        "nickname": "All Other AS Numbers"
+                    },
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/as-maps/The%2520North",
+                            "rel": "self"
+                        }
+                    ],
+                    "name": "The North"
+                },
+                "status": {
+                    "changeId": "93a48b86-4fc3-4a5f-9ca2-036835034cc6",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+                }
+            }
+
+### Remove an AS Map [DELETE]
++ Response 200 (application/vnd.config-gtm.v1.1+json)
+
+            {
+                "resource": null,
+                "status": {
+                    "changeId": "5beb11ae-8908-4bfe-8459-e88efc4d2fdc",
+                    "links": [
+                        {
+                            "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                            "rel": "self"
+                        }
+                    ],
+                    "message": "Change Pending",
+                    "passingValidation": true,
+                    "propagationStatus": "PENDING",
+                    "propagationStatusDate": "2014-04-08T18:25:51.000+0000"
+                }
+            }
+
+
+# Group Status
+Returns the Domain's current status.
+
+## Status [/config-gtm/v1/domains/{domain}/status/current]
+
+### Fetch Current status [GET]
++ Response 200 (application/json)
+
+            {
+                "changeId": "5beb11ae-8908-4bfe-8459-e88efc4d2fdc",
+                "links": [
+                    "href": "/config-gtm/v1/domains/example.akadns.net/status/current".
+                    "rel": "self"
+                ],
+                "message": "Current configuration has been propagated to all toplevels",
+                "passingValidation": true,
+                "propagationStatus": "COMPLETE",
+                "propagationStatusDate": "2014-03-08T15:39:00.000+0000"
+            }
+
+

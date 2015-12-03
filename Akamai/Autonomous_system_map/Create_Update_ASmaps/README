@@ -1,0 +1,44 @@
+    {
+        "resource": {
+            "assignments": [
+                {
+                    "asNumbers": [
+                        16625
+                    ],
+                    "datacenterId": 3134,
+                    "nickname": "Frostfangs and the Fist of First Men"
+                },
+                {
+                    "asNumbers": [
+                        12222, 16702, 17334
+                    ],
+                    "datacenterId": 3133,
+                    "nickname": "Winterfell"
+                }
+            ],
+            "defaultDatacenter": {
+                "datacenterId": 5400,
+                "nickname": "All Other AS Numbers"
+            },
+            "links": [
+                {
+                    "href": "/config-gtm/v1/domains/example.akadns.net/as-maps/The%2520North",
+                    "rel": "self"
+                }
+            ],
+            "name": "The North"
+        },
+        "status": {
+            "changeId": "93a48b86-4fc3-4a5f-9ca2-036835034cc6",
+            "links": [
+                {
+                    "href": "/config-gtm/v1/domains/example.akadns.net/status/current",
+                    "rel": "self"
+                }
+            ],
+            "message": "Change Pending",
+            "passingValidation": true,
+            "propagationStatus": "PENDING",
+            "propagationStatusDate": "2014-04-15T11:30:27.000+0000"
+        }
+    }

@@ -1,0 +1,105 @@
+<project name="MDNS-WebServices Sample API" default="all" basedir=".">
+
+	<property name="version" value="8.1"/>
+	<property file="${basedir}/config/test.properties" />
+	<path id="ws.classpath">
+		<fileset dir="${basedir}/lib">
+			<include name="*.jar"/>
+			<include name="**/*.jar"/>
+		</fileset>
+		<pathelement location="dist/mdns-soap-client-${version}.jar"/>
+	</path>
+
+	<taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+		<classpath refid="ws.classpath"/>
+	</taskdef>
+	<taskdef resource="testngtasks">
+		<classpath refid="ws.classpath"/>
+	</taskdef>
+
+	<target name="prepare">
+		<mkdir dir="${basedir}/classes"/>
+		<mkdir dir="${basedir}/gen-src"/>
+		<mkdir dir="${basedir}/dist"/>
+	</target>
+
+	<target name="dist">
+		<delete file="${basedir}/dist/mdns-soap-client-${version}.tar" failonerror="false"/>
+		<tar destfile="${basedir}/dist/mdns-soap-client-${version}.tar">
+			<mappedresources>
+				<fileset 
+					dir="${basedir}" 
+					excludes="classes/**, gen-src/**, gen-classes/**, dist/**, javadoc/**, test-report/**, test-output/**" />
+				<regexpmapper from="(.*)" to="mdns-soap-client-${version}/\1" />
+			</mappedresources>
+		</tar>
+	</target>
+
+	<target name="client-gen" depends="prepare" description="client-gen">
+		<delete dir="${basedir}/gen-classes" failonerror="false"/>
+		<delete dir="${basedir}/javadoc" failonerror="false"/>
+		<mkdir dir="${basedir}/gen-classes"/>
+		<wsimport
+             	extension="true"
+             	debug="true"
+             	verbose="true"
+             	keep="true"
+             	destdir="${basedir}/gen-classes"
+             	sourcedestdir="${basedir}/gen-src"
+				wsdl = "${wsdlUrl}"
+				xadditionalHeaders="true" />
+		<jar destfile="${basedir}/dist/mdns-soap-client-${version}.jar"
+			basedir="${basedir}/gen-classes"
+			/>
+		<delete dir="${basedir}/gen-classes" failonerror="false"/>
+		<javadoc
+		           sourcepath="gen-src"
+		           defaultexcludes="yes"
+		           destdir="javadoc" />
+	</target>
+
+	<target name="compile" description="compile">
+		<pathconvert property="wsClasspath" refid="ws.classpath"/>
+		<echo>ws.classpath === ${wsClasspath}</echo>
+		<javac srcdir="${basedir}/src"
+			destdir="${basedir}/classes"
+			classpathref="ws.classpath"
+			includeantruntime="false"/>
+	</target>
+
+	<path id="run.classpath">
+		<path refid="ws.classpath"/>
+		<pathelement location="${basedir}/classes"/>
+		<pathelement location="${basedir}/config"/>
+	</path>
+
+	<target name="create-domain" description="Runs Unit Tests">
+		<testng classpathref="run.classpath"
+		        outputDir="${basedir}/test-report"
+		        haltOnFailure="false" 
+				verbose="2">
+			<classfileset dir="${basedir}/classes/com/verisign/api/sample" includes="**/*.class" />
+		</testng>
+	</target>
+
+	<target name="run" description="Runs as application">
+		<java classpathref="run.classpath"
+			classname="com.verisign.api.sample.GetAccountNameServerList" />
+		<classfileset dir="${basedir}/classes/com/verisign/api/sample" includes="**/*.class" />
+	</target>
+
+
+
+	<target name="clean">
+		<delete dir="${basedir}/classes" failonerror="false"/>
+		<delete dir="${basedir}/gen-src" failonerror="false"/>
+		<delete dir="${basedir}/gen-classes" failonerror="false"/>
+		<delete dir="${basedir}/dist" failonerror="false"/>
+		<delete dir="${basedir}/javadoc" failonerror="false"/>
+		<delete dir="${basedir}/test-report" failonerror="false"/>
+		<delete dir="${basedir}/test-output" failonerror="false"/>
+	</target>
+
+	<target name="all" depends="client-gen, compile, run" description="all" />
+
+</project>

@@ -1,0 +1,41 @@
+Following is response from the akamai server.    
+{
+        "aggregationType": "latest",
+        "constrainedProperty": "**",
+        "decayRate": null,
+        "description": "Supply levels of Arbor Gold",
+        "hostHeader": null,
+        "leaderString": null,
+        "leastSquaresDecay": null,
+        "links": [
+            {
+                "href": "/config-gtm/v1/domains/example.akadns.net/resources/arbor-gold",
+                "rel": "self"
+            }
+        ],
+        "loadImbalancePercentage": null,
+        "maxUMultiplicativeIncrement": null,
+        "name": "arbor-gold",
+        "resourceInstances": [
+            {
+                "datacenterId": 3134,
+                "loadObject": "/cups",
+                "loadObjectPort": 80,
+                "loadServers": [
+                    "1.2.3.8"
+                ],
+                "useDefaultLoadObject": false
+            },
+            {
+                "datacenterId": 3133,
+                "loadObject": "/cups",
+                "loadObjectPort": 80,
+                "loadServers": [
+                    "1.2.3.7"
+                ],
+                "useDefaultLoadObject": false
+            }
+        ],
+        "type": "Non-XML load object via HTTP",
+        "upperBound": 0
+    }

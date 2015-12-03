@@ -1,0 +1,630 @@
+FORMAT: 1A
+
+# Billing Center API v1.0
+# Group Status Codes Description
+
+| code | description |
+| ---- | ----------- |
+| 200 | OK. |
+| 201 | Created. |
+| 403 | User is not authenticated. |
+| 400 | Bad Request. Please provide all the required params. |
+| 500 | There is a problem processing your request. Please try again later. The details are provided in the response body. |
+
+# Polling Intervals
+
+You may get more accurate monthly data if you delay the request by a few days after the start of the month. Follow up to check for updated data that may take longer to process. 
+
+# Group Contract Usage API
+
+This is an API for accessing contract usage data bound to the user's account. The scope of the returned data is limited to the user's account. As a consequence, only data for the user's account will be returned, even if the user has access to different accounts. If you wish to access data from multiple accounts, you can use the Contract Usage Reseller API.
+
+## CSV Report [/billing-usage/v1/contractUsageData/csv]
+
+### POST
+
+Creates a CSV report with contract usage data for the given parameters. For more information on CSV reports please refer to [CSV Format Overview](https://control.akamai.com/dl/help/TrafficReports/csv_format.htm).
+
++ Properties
+    + reportSources (string) ... Should contain a list of report sources in JSON format. The report source ids can be retrieved using the reportSources service.
+    + products (string) ... Should contain a list of products in JSON format. The product IDs can be retrieved using the products service.
+    + startDate (string) ... Define the time span products will be returned for. If products for one month should be returned, startDate should be equal endDate.
+    + endDate (string) ... Define the time span products will be returned for. If products for one month should be returned, startDate should be equal endDate.
+
++ Request (application/x-www-form-urlencoded)
+
+        reportSources=reportSources%3D%5B%7B%22id%22%3A%20%221-123456%22%2C%20%22type%22%3A%20%22contract%22%7D%2C%20%7B%22id%22%3A%20%221234%22%2C%20%22type%22%3A%20%22reportGroup%22%7D%5D%26startDate%3D%7B%22month%22%3A11%2C%20%22year%22%3A%202011%7D%26endDate%3D%7B%22month%22%3A11%2C%20%22year%22%3A%202011%7D%26products%3D%5B%7B%22id%22%3A%20%22Q-12345%22%7D%2C%20%7B%22id%22%3A%20%22Q-12345%22%7D%5D
+
++ Response 200
+    + Headers
+
+            Content-decomposition: attachment; fileName=usage_20130709141439.csv
+            Content-Type: text/csv;charset=UTF-8
+            Transfer-Encoding: chunked
+    + Body
+
+            Version:,1.0
+            Report Title:,Contract Usage Report
+            Report Start Date:,02/01/2014
+            Report End Date:,02/28/2014
+            TimeZone:,GMT (+0)
+            Expired HTTP Content Delivery - 1-ENCYF,Data Not Final
+
+            Contract / Reporting Group:,Usage Start Date,Usage End Date,Product,CP Codes,TimeStamp,95/5 GB,Total MB
+            Expired HTTP Content Delivery - 1-ENCYF,02/01/2014,02/04/2014,\"NetStorage\",1337,02/01/2014,0.29,0.77
+            Expired HTTP Content Delivery - 1-ENCYF,02/02/2014,02/04/2014,\"NetStorage\",1337,02/02/2014,0.49,0.73
+            Expired HTTP Content Delivery - 1-ENCYF,02/03/2014,02/04/2014,\"NetStorage\",1337,02/03/2014,0.99,0.19
+            Expired HTTP Content Delivery - 1-ENCYF,02/04/2014,02/04/2014,\"NetStorage\",1337,02/04/2014,0.76,0.26
+
+## Individual Reports [/billing-usage/v1/contractUsageData/{productId}/{reportSourceType}/{reportSourceId}/{statisticType}/{month}/{year}]
+
++ Properties
+    + series (string) ... An array containing a list of series (FinalDataMap or NonFinalDataMap).
+    + values (string) ... A list of days in the month and their corresponding contract usage values. If a value is null, it means that no value is available for this particular day.
+
+### GET
+
+This method returns the contract usage values for the specified parameters. The data is split into two possible series: FinalDataMap and NonFinalDataMap, which hold final and non-final values accordingly. Each series contains a list of (day, value) pairs, where value is the contract usage value for the day of the month.
+The response also contains some technical information which is used by the Luna Contract Usage Reports application and can be ignored.
+
++ Parameters
+    + month (number) ... The month we want to fetch data for.
+        + Values
+            + `1`
+            + `2`
+            + `3`
+            + `4`
+            + `5`
+            + `6`
+            + `7`
+            + `8`
+            + `9`
+            + `10`
+            + `11`
+            + `12`
+    + year (number) ... The year we want to fetch data for.
+    + reportSourceId (string) ... The report source ID, as returned by the reportSources service.
+    + reportSourceType (string) ... The report source type, as returned by the reportSources service.
+    + statisticType (string) ... The statistic type identifier, as provided by the statisticTypes service.
+    + productId (string) ... The ID of the product.
+
++ Response 200 (application/json)
+
+        {
+             "status": "ok",
+             "contents": {
+                 "title": "",
+                 "categories": "1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31",
+                 "series": [
+                     {
+                         "name": "NonFinalData",
+                         "color": "#f36b28",
+                         "values": {
+                            "1": 13.39,
+                            "2": 35.59,
+                            "3": 59.584,
+                            "4": 81.368,
+                            "5": 97.119,
+                            "6": 104.47,
+                            "7": 124.338,
+                            "8": 143.238,
+                            "9": 163.415,
+                            "10": 222.385,
+                            "11": 247.204,
+                            "12": 275.131,
+                            "13": 293.759,
+                            "14": 307.987,
+                            "15": 342.186,
+                            "16": 366.525,
+                            "17": 381.929,
+                            "18": 400.502,
+                            "19": 419.108,
+                            "20": 644.331,
+                            "21": 661.764,
+                            "22": 678.774,
+                            "23": 693.848,
+                            "24": 712.568,
+                            "25": 726.205,
+                            "26": 742.338,
+                            "27": 765.065,
+                            "28": 821.818,
+                            "29": 854.806,
+                            "30": 881.275,
+                            "31": null
+                         },
+                         "orderedValues": "[13.39,35.59,59.584,81.368,97.119,104.47,124.338,143.238,163.415,222.385,247.204,275.131,293.759,307.987,342.186,366.525,381.929,400.502,419.108,644.331,661.764,678.774,693.848,712.568,726.205,742.338,765.065,821.818,854.806,881.275,0]"
+                     }
+                 ],
+                 "labels": ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"]
+             }
+         }
+
+## Monthly Usage Data [/billing-usage/v1/contractUsageData/monthly/{productId}/{reportSourceType}/{reportSourceId}/{statisticType}/{startMonth}/{startYear}/{endMonth}/{endYear}]
+### GET
+
+This method returns the contract usage values for the specified parameters, which are grouped by month.
+
++ Properties
+    + title (string) ... Title
+    + categories (string) ... Month and year
+    + legend (string) ... Color definitions for final and non-final data series
+    + series (string) ... An array containing a list of series. Each entry includes `name`, `color`, `orderedValues` and `values`. There are  `color` and `y` values defined in `values`.
+    + values (string) ... A list of months and their corresponding contract usage values. If a value is `null`, it means that no value is available for this particular month.
+    + labels (string) ... Data labels
+    + xunit (optional, number) ... Optional. Measurement units for the X axis.
+    + yunit (optional, number) ... Optional. Measurement units for the Y axis.
+
++ Parameters
+    + endYear (required, number) ... The last year we want to fetch data for.
+    + startYear (required, number) ... The first year we want to fetch data for.
+    + startMonth (required, number) ... The first month we want to fetch data for.
+        + Values
+            + `1`
+            + `2`
+            + `3`
+            + `4`
+            + `5`
+            + `6`
+            + `7`
+            + `8`
+            + `9`
+            + `10`
+            + `11`
+            + `12`
+    + reportSourceId (required, number) ... The report source ID, as returned by the reportSources service.
+    + reportSourceType (required, number) ... The report source type, as returned by the reportSources service.
+    + endMonth (required, number) ... The last month we want to fetch data for.
+        + Values
+            + `1`
+            + `2`
+            + `3`
+            + `4`
+            + `5`
+            + `6`
+            + `7`
+            + `8`
+            + `9`
+            + `10`
+            + `11`
+            + `12`
+    + statisticType (required, number) ... The statistic type identifier, as provided by the `statisticTypes` service.
+    + productId (required, number) ... The ID of the product.
+
++ Response 200 (application/json)
+
+        {
+                "status":"ok",
+                "contents":{
+                    "title" : "",
+                    "categories" : "03/2013",
+                    "legend" : [
+                        {
+                           "name" : "FinalData",
+                           "color" : "#6d869f"
+                        },
+                        {
+                           "name" : "NonFinalData",
+                           "color" : "#f36b28"
+                        }
+                    ],
+                    "series" : [
+                    {
+                        "name" : "Contract_0",
+                        "color" : null,
+                        "values" : {
+                        "03/2013" : {
+                            "y" : 97433.684,
+                            "color":"#f36b28"
+                          }
+                        },
+                       "orderedValues":"[97433.684]"
+                    },
+                    {
+                        "name" : "Contract_1",
+                        "color" : null,
+                        "values" : {
+                          "03/2013" : {
+                            "y" : 98073.031,
+                            "color" : "#6d869f"
+                          }
+                       },
+                       "orderedValues" : "[98073.031]"
+                    },
+                    {
+                        "name":"Contract_2",
+                        "color":null,
+                        "values":{
+                          "03/2013":{
+                            "y":98763.23,
+                            "color":"#f36b28"
+                           }
+                        },
+                        "orderedValues":"[98763.23]"
+                    },
+                    {
+                        "name":"Contract_3",
+                        "color":null,
+                        "values":{
+                         "03/2013":{
+                            "y":99573.921,
+                             "color":"#6d869f"
+                            }
+                        },
+                        "orderedValues":"[99573.921]"
+                    }
+                    ],
+                    "labels":[
+                    "03/2013"
+                    ],
+                    "xunit":"",
+                    "yunit":""
+                }
+        }
+
+## CP Codes [/billing-usage/v1/cpcodes/{reportSourceType}/{reportSourceId}/{month}/{year}]
+### GET
+
+This method returns a list of cp codes that are available in the given report source in the given time span. If there is no report data for the given selection, no cp codes will be returned even if the report source has cp codes defined in a different time span.
+
++ Properties
+    + code (string) ... The CP code.
+    + description (string) ... CP code  description
+
++ Parameters
+    + month (number) ... The month we want to fetch data for.
+        + Values
+            + `1`
+            + `2`
+            + `3`
+            + `4`
+            + `5`
+            + `6`
+            + `7`
+            + `8`
+            + `9`
+            + `10`
+            + `11`
+            + `12`
+    + year (number) ... The year we want to fetch data for.
+    + reportSourceId (string) ... The report source ID, as returned by the `reportSources` service.
+    + reportSourceType (string) ... The report source type, as returned by the `reportSources` service.
+
++ Response 200 (application/json)
+
+        {
+             "status": "ok",
+                 "contents": [
+                     {
+                         "code": 1234,
+                         "description": "Cp code description"
+                     },
+                     {
+                         "code": 2345,
+                         "description": "Cp code description"
+                     }
+                 ]
+        }
+
+## Measures [/billing-usage/v1/measures/{productId}/{reportSourceType}/{reportSourceId}/{startMonth}/{startYear}/{endMonth}/{endYear}]
+### GET
+
+This method returns the measures that are available for the given product and report group in the current account context. A measure value is an aggregate of values for a specified statistic type (e.g., MBits) in the selected month. Usually the aggregation is performed by summing up all values. For some measures the maximum value is taken (Total Hits, Peak Mbps, etc.). For some statistic types it is impossible to calculate a measure (e.g., 95/5) - these statistic types are ignored and not returned by this service.
+
++ Properties
+    + measures (string) ... An array containing a billingDay property and a list of corresponding measures. The billing day defines the last day of the billing period for which the measures were calculated.
+    + unit (string) ... The unit of measurement for the statistic measure.
+    + name (string) ... The human readable name of the statistic type.
+    + statisticType (string) ... The statistic type identifier as returned by the `statisticTypes` services.
+    + value (string) ... The calculated measure value.
+    + chartAvailable (string) ... Indicates whether a chart can be generated for this measure (used by the Luna Contract Usage Reports application).
+
++ Parameters
+    + endYear (number) ... The last year we want to fetch data for.
+    + startYear (number) ... The first year we want to fetch data for.
+    + startMonth (number) ... The first month we want to fetch data for.
+        + Values
+            + `1`
+            + `2`
+            + `3`
+            + `4`
+            + `5`
+            + `6`
+            + `7`
+            + `8`
+            + `9`
+            + `10`
+            + `11`
+            + `12`
+    + reportSourceId (string) ... The report source ID, as returned by the `reportSources` service.
+    + reportSourceType (string) ... The report source type, as returned by the `reportSources` service.
+    + endMonth (number) ... The last month we want to fetch data for.
+        + Values
+            + `1`
+            + `2`
+            + `3`
+            + `4`
+            + `5`
+            + `6`
+            + `7`
+            + `8`
+            + `9`
+            + `10`
+            + `11`
+            + `12`
+    + productId (string) ... The ID of the product.
+
++ Response 200 (application/json)
+
+        {
+             "status": "ok",
+                 "contents": [
+                     {
+                         "billingDay": 31,
+                         "measures": [
+                             {
+                                 "unit": "Mbps",
+                                 "name": "95/5 Mbps",
+                                 "statisticType": "OTUvNSBNQlBT",
+                                 "value": 0.012,
+                                 "chartAvailable": true
+                             },
+                             {
+                                 "unit": "Mbps",
+                                 "name": "Peak Mbps",
+                                 "statisticType": "UEVBSyBNQlBT",
+                                 "value": 0.431,
+                                 "chartAvailable": false
+                             },
+                             {
+                                 "unit": "Hits",
+                                 "name": "Total Hits",
+                                 "statisticType": "VE9UQUwgSElUUw==",
+                                 "value": 21900,
+                                 "chartAvailable": false
+                             },
+                             {
+                                 "unit": "MB",
+                                 "name": "Total MB",
+                                 "statisticType": "VE9UQUwgTUI=",
+                                 "value": 923.862,
+                                 "chartAvailable": true
+                             }
+                         ]
+                     }
+                 ]
+        }
+
+## Products [/billing-usage/v1/products]
+### POST
+
+Gets all products that are available for the given report source in the provided time span. Only products that have report data available for the provided arguments will be returned.
+
+The parameters from the request example in decoded form:
+
+```
+reportSources=[{"id":"15929","type":"reportGroup"},{"id":"4352","type":"reportGroup"},{"id":"7471","type":"reportGroup"}]
+startDate={"month":11, "year": 2011}
+endDate={"month":11, "year": 2013}
+```
+
++ Properties
+    + reportSources (string) ... Should contain a list of report sources in JSON format.
+    + startDate (string) ... Define the time span products will be returned for. If products for one month should be returned, startDate should be equal endDate.
+    + endDate (string) ... Define the time span products will be returned for. If products for one month should be returned, startDate should be equal endDate.
+
++ Request (application/x-www-form-urlencoded)
+
+        reportSources=%5B%7B%22id%22%3A%2215929%22%2C%22type%22%3A%22reportGroup%22%7D%2C%7B%22id%22%3A%224352%22%2C%22type%22%3A%22reportGroup%22%7D%2C%7B%22id%22%3A%227471%22%2C%22type%22%3A%22reportGroup%22%7D%5D&startDate=%7B%22month%22%3A11%2C+%22year%22%3A+2011%7D&endDate=%7B%22month%22%3A11%2C+%22year%22%3A+2013%7D
+
++ Response 200 (application/json)
+
+        {
+            "status":"ok",
+            "contents":[
+                {"id":"1-1MT2CP","name":"Akamai FTP"},
+                {"id":"1-39UFVI","name":"Akamai Media Delivery - Streaming for Flash"},
+                {"id":"1-39UFW5","name":"Akamai Media Delivery - Standard Downloads"},
+                {"id":"1-39UMI1","name":"Akamai Media Delivery - Streaming"},
+                {"id":"1-DGDD8","name":"Storage"},
+                {"id":"1-DGDF7","name":"Log Delivery (FF)"},
+                {"id":"1-Y9R1G","name":"Tiered Distribution Delivery"},
+                {"id":"B-3-2ORSUU","name":"On Demand and Live Flash"},
+                {"id":"B-3-8D05LS","name":"Adobe Flash Platform"},
+                {"id":"B-3-8ZFW1F","name":"Akamai Media Delivery - Streaming for Flash"},
+                {"id":"B-3-92QNMT","name":"Log Delivery Service - All Streaming Delivery"},
+                {"id":"B-3-A5MBD","name":"Dynamic Site Delivery"},
+                {"id":"B-3-A5MED","name":"NetStorage"},
+                {"id":"B-3-FX2U1","name":"Secure Delivery"},
+                {"id":"B-3-FX2YW","name":"Live Flash"},
+                {"id":"B-4-1LO3SZ","name":"Live Flash"},
+                {"id":"B-4-1O78TS","name":"All Streaming Delivery"},
+                {"id":"M-LC-1151","name":"SecureHD Media Encryption"},
+                {"id":"M-LC-959","name":"HD Live Streaming for iPhone & iPad"}
+        ]}
+
+## Report Sources [/billing-usage/v1/reportSources]
+### GET
+
+Gets all Report Sources for the user account. Report sources are used to limit the scope of returned contract usage data. There are two types of report sources, which are distinguished by the type parameter:
+
++ reportGroup - a reporting group
++ contract - a top level group (contract)
+
++ Response 200 (application/json)
+
+        {
+            "status": "ok",
+            "contents": [
+              {
+                 "id": "1-23456",
+                 "name": "Top-Level Group: 1-23456",
+                 "type": "contract"
+              },
+              {
+                 "id": "1-56DI96",
+                 "name": "Windows Media Streaming - 1-23456",
+                 "type": "contract"
+               },
+              {
+                 "id": "11111",
+                 "name": "My Group",
+                 "type": "reportGroup"
+              }
+            ]
+        }
+
+## Statistic Types [/billing-usage/v1/statisticTypes/{productId}/{reportSourceType}/{reportSourceId}/{startMonth}/{startYear}/{endMonth}/{endYear}]
+### GET
+
+Gets a list of statistic types that are valid for the given product in the provided timespan.
+
++ Properties
+    + statisticType (string) ... The identifier that should be used to retrieve contract usage data for this statistic type.
+    + statisticLabel (string) ... The human-readable name of the statistic type.
+    + chartUnit (string) ... The unit of measurement of the statistic type.
+
++ Parameters
+    + endYear (number) ... The last year we want to fetch data for.
+    + startYear (number) ... The first year we want to fetch data for.
+    + startMonth (number) ... The first month we want to fetch data for.
+        + Values
+            + `1`
+            + `2`
+            + `3`
+            + `4`
+            + `5`
+            + `6`
+            + `7`
+            + `8`
+            + `9`
+            + `10`
+            + `11`
+            + `12`
+    + reportSourceId (string) ... The report source ID, as returned by the reportSources service.
+    + reportSourceType (string) ... The report source type, as returned by the reportSources service.
+    + endMonth (number) ... The last month we want to fetch data for.
+        + Values
+            + `1`
+            + `2`
+            + `3`
+            + `4`
+            + `5`
+            + `6`
+            + `7`
+            + `8`
+            + `9`
+            + `10`
+            + `11`
+            + `12`
+    + productId (string) ... The ID of the product.
+
++ Response 200 (application/json)
+
+        {
+             "status": "ok",
+             "contents": [
+                 {
+                     "statisticType": "OTUvNSBNQlBT",
+                     "statisticLabel": "95/5 Mbps",
+                     "chartUnit": "Mbps"
+                 },
+                 {
+                    "statisticType": "VE9UQUwgTUI=",
+                    "statisticLabel": "Total MB",
+                    "chartUnit": "MB"
+                 }
+            ]
+        }
+
+# Group Contract Usage Reseller API
+
+API for accessing contract usage data for all report sources the user has access to - meant to be used primarily by reseller users. The scope of the returned data is limited to every report source the user has access to. More specifically: If the user has access to 2 different accounts, data from all 2 accounts (report sources, csv data) will be available when using the Contract Usage Reseller API.
+
+## CSV Data For Reseller [/billing-usage/v1/reseller/contractUsageData/csv]
+### POST
+
+Creates a CSV report with contract usage data for the given report sources and time span. The csv report includes all products which meet the specified criteria. For more information on CSV reports please refer to [CSV Format Overview](https://control.akamai.com/dl/help/TrafficReports/csv_format.htm).
+
++ Properties
+    + reportSources (string) ... should contain a list of report sources in JSON format. The report source idscan be retrieved using the reportSources service.
+    + startDate (string) ... defines the time span products will be returned for. If products for one month should be returned, startDate should be equal endDate.
+    + endDate (string) ... defines the time span products will be returned for. If products for one month should be returned, startDate should be equal endDate.
+
+Decoded form of the example request:
+
+```
+reportSources=[{"id": "1-123456", "type": "contract"}, {"id": "1234", "type": "reportGroup"}]&
+startDate={"month":11, "year": 2011}&
+endDate={"month":11, "year": 2011}&
+products=[{"id": "Q-12345"}, {"id": "Q-12345"}]
+```
+
++ Request (application/x-www-form-urlencoded)
+
+        reportSources=%3D%5B%7B%22id%22%3A%20%221-123456%22%2C%20%22type%22%3A%20%22contract%22%7D%2C%20%7B%22id%22%3A%20%221234%22%2C%20%22type%22%3A%20%22reportGroup%22%7D%5D%26startDate%3D%7B%22month%22%3A11%2C%20%22year%22%3A%202011%7D%26endDate%3D%7B%22month%22%3A11%2C%20%22year%22%3A%202011%7D%26products%3D%5B%7B%22id%22%3A%20%22Q-12345%22%7D%2C%20%7B%22id%22%3A%20%22Q-12345%22%7D%5D
+
++ Response 200
+    + Headers
+
+            Content-decomposition: attachment; fileName=usage_20130709141439.csv
+            Content-Type: text/csv;charset=UTF-8
+            Transfer-Encoding: chunked
+    + Body
+
+            Version:,1.0
+            Report Title:,Contract Usage Report
+            Report Start Date:,02/01/2014
+            Report End Date:,02/28/2014
+            TimeZone:,GMT (+0)
+            Expired HTTP Content Delivery - 1-ENCYF,Data Not Final
+
+            Contract / Reporting Group:,Usage Start Date,Usage End Date,Product,CP Codes,TimeStamp,95/5 GB,Total MB
+            Expired HTTP Content Delivery - 1-ENCYF,02/01/2014,02/04/2014,\"NetStorage\",1337,02/01/2014,0.29,0.77
+            Expired HTTP Content Delivery - 1-ENCYF,02/02/2014,02/04/2014,\"NetStorage\",1337,02/02/2014,0.49,0.73
+            Expired HTTP Content Delivery - 1-ENCYF,02/03/2014,02/04/2014,\"NetStorage\",1337,02/03/2014,0.99,0.19
+            Expired HTTP Content Delivery - 1-ENCYF,02/04/2014,02/04/2014,\"NetStorage\",1337,02/04/2014,0.76,0.26
+
+## Report Sources for Reseller [/billing-usage/v1/reseller/reportSources]
+### GET
+
+Gets all Report Sources the user has access to. Report sources are used to limit the scope of returned contract usage data. There are two types of report sources, which are distinguished by the type parameter:
+
++ reportGroup - a reporting group
++ contract - a top level group (contract)
+
++ Response 200 (application/json)
+
+        {
+            "status": "ok",
+            "contents": [
+              {
+                 "id": "1-23456",
+                 "name": "Top-Level Group: 1-23456",
+                 "type": "contract"
+              },
+              {
+                 "id": "1-56DI96",
+                 "name": "Windows Media Streaming - 1-23456",
+                 "type": "contract"
+               },
+              {
+                 "id": "11111",
+                 "name": "My Group",
+                 "type": "reportGroup"
+              }
+            ]
+        }
+
+# Group API Versioning
+
+The Billing Center REST API is versioned by including a version stamp as part of the request URI. For example, /v1/....
+As of July 01, 2013, the Contract Usage Reports REST API has one version: v1.
+
+When accessing the API, all documented REST resources are available under all versions, even if nothing to that call has changed. For example, /contractusage/api/v1/reportSources was not changed, between v1 and v2, but is accessible under both v1 and v2. The general idea is that clients can use a single version at a time, rather than mix versions from REST call to REST call.
+
+# Group Getting Help
+
+If immediate assistance is required, or an issue is encountered, open a case with Customer Care.
+
+Last updated: Oct 16, 2014
+

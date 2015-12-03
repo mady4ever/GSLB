@@ -1,0 +1,12 @@
+Akamai terms each regions as a Datacenter.
+
+        Akamai GTM Service
+		|
+		|
+	_________________
+	|		|
+Datacenter-A          Datacenter-B
+
+
+Akamai load balance among the different Datacenters but not witin datacenters.
+Load balance/failure taken place at the DNS level.

@@ -1,0 +1,32 @@
+This is a java SOAP client starter kit for MDNS.
+It is intended to provide a starting point for integration with MDNS SOAP api.
+
+
+PREREQUSITE dependencies
+========================
+# jdk 1.7
+# apache-ant 1.8+
+
+Note: 
+If ant is not installed, 
+to use the ant packaged with this distribution run
+$> . ./setenv.sh
+
+
+Configuration
+=============
+See 
+./config/test.properties
+
+
+To Run
+======
+$> ant
+
+
+See also
+========
+Other ant tasks including "run-tests" in ./build.xml
+
+
+=====================================================

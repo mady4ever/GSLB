@@ -1,0 +1,90 @@
+{
+    "$schema" :  "http://json-schema.org/draft-03/schema#",
+    "type": "object",
+    "properties": {
+        "city": {
+            "type": ["string", "null"]
+        },
+        "cloneOf": {
+            "type": ["integer", "null"]
+        },
+        "continent": {
+            "type" : [
+                {
+                    "type": "string",
+                    "maxLength": 2,
+                    "enum": ["AF", "AS", "EU", "NA", "OC", "OT", "SA"]
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "country": {
+            "type": ["string", "null"],
+            "maxLength": 2
+        },
+        "defaultLoadObject": {
+            "type": [
+                {
+                    "type": "object",
+                    "properties": {
+                        "loadObject": {
+                            "type": "string",
+                            "maxLength": 256,
+                            "pattern": "^(?!:).*$"
+                        },
+                        "loadObjectPort": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 65535
+                        },
+                        "loadServers": {
+                            "items": {
+                                "type": "string",
+                                "maxLength": 256
+                            },
+                            "type": "array"
+                        }
+                    }
+                }, {
+                    "type": "null"
+                }
+            ]
+        },
+        "latitude": {
+            "type": "number"
+        },
+        "links": {
+            "items": {
+                "properties": {
+                    "href": {
+                        "type": "string"
+                    },
+                    "rel": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "type": "array"
+        },
+        "longitude": {
+            "type": "number"
+        },
+        "nickname": {
+            "type": "string"
+        },
+        "datacenterId": {
+            "required": true,
+            "type": "integer"
+        },
+        "stateOrProvince": {
+            "type": ["string", "null"]
+        },
+        "virtual": {
+            "type": "boolean"
+        }
+    },
+    "additionalProperties": false
+}
